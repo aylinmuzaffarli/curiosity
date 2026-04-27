@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Why is the sky blue? Why isn't it blue during sunsets? Why is the sky on Mars orange-ish? And why are Martian sunsets blue? — Curiosity</title>
+<link rel="icon" type="image/png" href="../logoCu.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;1,400&family=Syne:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F8F5F0;
+  --text:#111;
+  --muted:#888;
+  --copper:#C17B3F;
+  --card-bg:#ffffff;
+  --card-border:rgba(0,0,0,0.07);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+}
+.navbar{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 80px);
+  max-width:1100px;
+  padding:14px 20px;
+  border-radius:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,0.35);
+  backdrop-filter:blur(14px) saturate(160%);
+  border:0.5px solid rgba(255,255,255,0.65);
+  box-shadow:0 8px 40px rgba(0,0,0,0.07),inset 0 1px 0 rgba(255,255,255,0.85);
+  z-index:100;
+}
+.logo{font-family:'Syne';font-size:17px;text-decoration:none;color:var(--text);}
+.logo span{color:var(--copper);}
+.nav-links{display:flex;gap:22px;align-items:center;}
+.nav-links a{text-decoration:none;font-size:13px;color:var(--muted);transition:.2s;}
+.nav-links a:hover{color:var(--copper);}
+.nav-links a.active{color:var(--copper);font-weight:500;}
+.back-link{
+  display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);
+  text-decoration:none;transition:.2s;border-left:0.5px solid rgba(0,0,0,0.1);
+  padding-left:22px;margin-left:4px;
+}
+.back-link:hover{color:var(--copper);}
+.back-link svg{stroke:currentColor;transition:.2s;}
+.article-wrap{max-width:860px;margin:0 auto;padding:140px 60px 100px;}
+.article-eyebrow{
+  color:var(--copper);font-size:11px;letter-spacing:2.8px;text-transform:uppercase;
+  margin-bottom:16px;opacity:0;animation:fadeUp .5s ease forwards .05s;
+}
+.article-title{
+  font-family:'Lora';font-size:26px;line-height:1.6;color:var(--text);
+  margin-bottom:48px;opacity:0;animation:fadeUp .6s ease forwards .15s;
+}
+.article-divider{
+  width:36px;height:1px;background:var(--copper);margin-bottom:48px;
+  opacity:0;animation:fadeUp .5s ease forwards .3s;
+}
+.article-body{opacity:0;animation:fadeUp .6s ease forwards .4s;}
+.section-title{font-family:'Lora';font-size:22px;margin:52px 0 18px;color:var(--text);}
+.section-title:first-child{margin-top:0;}
+.article-body p{font-family:'Lora';font-size:17px;line-height:1.85;color:#222;margin-bottom:22px;}
+.formula{font-family:'Georgia',serif;font-size:20px;text-align:center;margin:28px 0;color:var(--text);letter-spacing:0.5px;}
+.formula-note{font-family:'Lora';font-style:italic;font-size:14px;color:var(--muted);text-align:center;margin-top:-16px;margin-bottom:24px;}
+.deeper{margin:8px 0 28px;border-radius:14px;border:0.5px solid var(--card-border);overflow:hidden;background:var(--card-bg);}
+.deeper-toggle{
+  width:100%;display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;background:none;border:none;cursor:pointer;
+  font-family:'Inter',sans-serif;font-size:13px;font-weight:500;color:var(--copper);
+  text-align:left;gap:12px;transition:background .2s;-webkit-tap-highlight-color:transparent;
+}
+.deeper-toggle:hover{background:rgba(193,123,63,0.05);}
+.deeper-chevron{flex-shrink:0;transition:transform .3s ease;stroke:var(--copper);}
+.deeper-toggle.open .deeper-chevron{transform:rotate(180deg);}
+.deeper-content{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;padding:0 20px;}
+.deeper-content.open{max-height:600px;padding:4px 20px 20px;}
+.deeper-content p{font-family:'Lora';font-size:15px;line-height:1.8;color:#444;margin-bottom:14px;}
+.deeper-content p:last-child{margin-bottom:0;}
+.deeper-content .formula{font-size:17px;margin:18px 0;}
+.article-img-wrap{margin:32px 0 10px;border-radius:14px;overflow:hidden;border:0.5px solid var(--card-border);}
+.article-img-wrap img{width:100%;display:block;}
+.img-caption{font-family:'Inter';font-size:12px;color:var(--muted);margin-bottom:28px;padding-left:2px;}
+.summary-card{
+  background:var(--card-bg);border:0.5px solid var(--card-border);
+  border-radius:18px;padding:28px 32px;margin:52px 0 28px;
+}
+.summary-card-label{font-size:11px;letter-spacing:2.2px;text-transform:uppercase;color:var(--copper);margin-bottom:6px;}
+.summary-card-subtitle{font-family:'Lora';font-size:16px;color:var(--text);margin-bottom:20px;}
+.summary-card ol{list-style:none;display:flex;flex-direction:column;gap:14px;counter-reset:summary-counter;}
+.summary-card ol li{
+  font-family:'Lora';font-size:15px;line-height:1.7;color:#222;
+  padding-left:28px;position:relative;counter-increment:summary-counter;
+}
+.summary-card ol li::before{
+  content:counter(summary-counter);position:absolute;left:0;top:1px;
+  width:18px;height:18px;border-radius:50%;background:rgba(193,123,63,0.12);
+  color:var(--copper);font-family:'Inter';font-size:11px;font-weight:500;
+  display:flex;align-items:center;justify-content:center;
+}
+.curious-card{
+  background:linear-gradient(135deg,rgba(193,123,63,0.06) 0%,rgba(193,123,63,0.02) 100%);
+  border:0.5px solid rgba(193,123,63,0.2);border-radius:18px;padding:28px 32px;margin-bottom:60px;
+}
+.curious-card-label{font-size:11px;letter-spacing:2.2px;text-transform:uppercase;color:var(--copper);margin-bottom:18px;}
+.curious-card p{font-family:'Lora';font-size:16px;line-height:1.85;color:#222;margin-bottom:16px;}
+.curious-card p:last-child{margin-bottom:0;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:900px){.navbar{width:calc(100% - 40px);}.article-wrap{max-width:100%;padding:130px 32px 80px;}}
+@media(max-width:768px){
+  .navbar{width:calc(100% - 30px);top:12px;padding:12px 14px;}
+  .nav-links{gap:12px;}.back-link{padding-left:12px;}
+  .article-wrap{padding:110px 18px 60px;}
+  .article-title{font-size:19px;}.section-title{font-size:19px;}
+  .article-body p{font-size:16px;}.summary-card{padding:22px 20px;}.curious-card{padding:22px 20px;}
+}
+@media(max-width:380px){.article-title{font-size:17px;}.nav-links a:not(.back-link){display:none;}}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="../index.html" class="logo"><span>Cu</span>riosity</a>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../explore.html">Explore</a>
+    <a href="../contact.html">Contact</a>
+    <a href="../explore.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11 7H3M6 3L2 7l4 4"/>
+      </svg>
+      Explore
+    </a>
+  </div>
+</div>
+
+<div class="article-wrap">
+
+  <div class="article-eyebrow">Question</div>
+  <div class="article-title">Why is the sky blue? Why isn't it blue during sunsets? Why is the sky on Mars orange-ish? And why are Martian sunsets blue?</div>
+  <div class="article-divider"></div>
+
+  <div class="article-body">
+
+    <div class="section-title">Why is the sky blue?</div>
+
+    <p>Our air is made mostly of <strong>nitrogen</strong> and <strong>oxygen</strong> molecules. When sunlight enters the atmosphere, it doesn't just pass through — it hits these tiny molecules and gets <strong>scattered</strong> in all directions.</p>
+
+    <p>But not all colors scatter equally. Sunlight is actually a mix of all colors, and each color has a different <strong>wavelength</strong> — red has a long wavelength, blue and violet have short ones. <strong>Short wavelengths scatter much more strongly.</strong> This is described by <strong>Rayleigh's law</strong>:</p>
+
+    <div class="formula">I = k × 1/λ⁴</div>
+    <div class="formula-note">The shorter the wavelength λ, the much more intensely light scatters.</div>
+
+    <div class="deeper">
+      <button class="deeper-toggle" id="deeperToggle1" onclick="toggleDeeper('deeperContent1','deeperToggle1')">
+        Want to go deeper? — What is k?
+        <svg class="deeper-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6l4 4 4-4"/>
+        </svg>
+      </button>
+      <div class="deeper-content" id="deeperContent1">
+        <p>k is not a single universal number. It depends on the properties of the particles that scatter the light.</p>
+        <p>One important factor is <em>polarizability</em>. When light passes by a molecule, its electric field pushes on the molecule's electrons and makes them move slightly. If the electrons shift easily, the molecule interacts more strongly with the light. This property is called molecular polarizability (α). The strength of scattering depends strongly on it — roughly:</p>
+        <div class="formula">k ∝ α²</div>
+        <p>But polarizability is not the only thing involved. The value of k also depends on the number of molecules in the air (how dense the atmosphere is) and on the optical properties of the gas, such as its refractive index.</p>
+        <p>Because different gases have different polarizabilities and optical properties, they scatter light differently. Nitrogen and oxygen — which make up most of Earth's atmosphere — therefore determine how sunlight is scattered in our sky.</p>
+      </div>
+    </div>
+
+    <div class="article-img-wrap">
+      <img src="../images/Screenshot 2026-03-18 212732.png" alt="Rayleigh scattering spectrum diagram" />
+    </div>
+    <div class="img-caption">Image source: Freepik</div>
+
+    <p>So why isn't the sky <strong>violet</strong>? Violet has an even shorter wavelength than blue, so it actually scatters more. (Honestly, some ozone also absorbs violet light.) But two things work against it: the Sun emits very little violet light to begin with — as you can see in the solar spectrum below, the peak is around green-yellow, and violet sits on the weak tail end. On top of that, our <strong>eyes are simply less sensitive to violet than blue</strong>.</p>
+
+    <div class="article-img-wrap">
+      <img src="../images/Screenshot 2026-03-18 212804.png" alt="Solar spectrum showing peak wavelengths" />
+    </div>
+    <div class="img-caption">Image source: Sri Chaitanya Academy NEET, YouTube</div>
+
+    <p>So blue light wins — it scatters strongly, there's plenty of it from the Sun, and our eyes pick it up well. Wherever you look up, scattered blue light is reaching your eyes from all directions.</p>
+    <p>That's why the sky is blue.</p>
+
+    <div class="section-title">Why isn't the sky blue during sunsets?</div>
+
+    <p>At sunset, sunlight travels through a <strong>much longer path of atmosphere</strong> before reaching your eyes. By the time it arrives, the <strong>blue light has already been scattered away</strong> long before it reaches you. Only <strong>red and orange</strong> survive that long journey — they don't scatter much.</p>
+
+    <p>They travel in one direction (they scatter a little, but very little), and when the Sun is at a <strong>low angle on the horizon</strong>, these straight-traveling waves pass through the sky at that same low angle — lighting up everything in that direction in warm reds and oranges. That's why both the Sun itself and the sky around it glow red and orange at sunset and sunrise.</p>
+
+    <div class="section-title">Why is the sky on Mars orange-ish?</div>
+
+    <div class="article-img-wrap">
+      <img src="../images/Mars.png" alt="The Martian sky, orange-pinkish in color" />
+    </div>
+    <div class="img-caption">Image source: thisiscolossal.com</div>
+
+    <p>There is a type of scattering called <strong>Mie scattering</strong>. Unlike <strong>Rayleigh scattering</strong>, which happens with tiny gas molecules, Mie scattering happens with bigger particles — like dust.</p>
+
+    <p>Mars has only 1% of Earth's atmosphere, but it has something Earth doesn't — <strong>iron oxide dust</strong>, basically rust, constantly kicked up into the air by frequent dust storms and carried across the whole planet. This dust stays suspended in the atmosphere for long periods. When light hits these dust particles, the iron oxide <strong>absorbs more blue and green light than red and orange</strong> — but some blue light survives and can be scattered forward, producing a faint bluish halo around the Sun. That's simply how colors work — every material absorbs some wavelengths and reflects others.</p>
+
+    <p>But there's more. Because the dust particles are large, light doesn't hit the whole particle at the same moment — it reaches one side before the other. This makes different parts of the particle vibrate <strong>out of sync</strong> with each other. When out-of-sync vibrations re-emit light, some directions cancel out and some add up — this is called <strong>interference</strong>. The forward direction ends up with the most light, and sideways and backward directions get less.</p>
+
+    <p>So the dust particles scatter orange-reddish light mostly sideways across the atmosphere — lighting up the whole Martian sky in orange.</p>
+
+<div class="section-title">Why are sunsets and sunrises on Mars blue?</div>
+
+    <div class="article-img-wrap">
+      <img src="../images/sunsetMars.png" alt="A blue Martian sunset photographed by a rover" />
+    </div>
+    <div class="img-caption">Image source: NASA</div>
+
+    <p>Because at low angles, sunlight needs to travel much more distance through the atmosphere.</p>
+
+    <p>When the Sun is high, its light travels a short distance to reach you — most of it arrives direct and bright (see Figure 1). A blue halo exists even then, but it's completely invisible against the overwhelming glare of direct sunlight.</p>
+
+    <div class="article-img-wrap">
+      <img src="../images/figure1.png" alt="Figure 1"/>
+    </div>
+    <div class="img-caption">Figure 1</div>
+
+    <p>At low angles, the path is much longer (see Figure 2). Along that path, most of the red and orange light gets scattered sideways by dust and never reaches you. The Sun itself becomes noticeably dimmer. Now the blue light — which dust scatters more strongly forward — is no longer drowned out. It reaches the observer, forming a visible bluish halo around the Sun. The rest of the sky stays orange-ish.</p>
+
+    <div class="article-img-wrap">
+      <img src="../images/figure2.png" alt="Figure 2" />
+    </div>
+<div class="img-caption">Figure 2</div>
+   
+    <p><em>Note: the Sun is obviously much bigger than Mars — I drew it this way as if we're observing from the side of Mars, to show the angle of the light path.</em></p>
+
+    <p>So the Martian sunset is the opposite of Earth's — blue near the Sun, orange everywhere else. The same physics, just with different particles doing the work.</p>
+
+
+<div class="deeper">
+      <button class="deeper-toggle" id="deeperToggle2" onclick="toggleDeeper('deeperContent2','deeperToggle2')">
+        Want to go deeper? — Why does blue scatter forward?
+        <svg class="deeper-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6l4 4 4-4"/>
+        </svg>
+      </button>
+      <div class="deeper-content" id="deeperContent2">
+        <p>Why do dust particles scatter blue forward but red and orange sideways? This comes from solving Maxwell's equations for spherical particles — primarily depending on the ratio of wavelength to particle size and the particle's refractive index. The pattern is real and experimentally confirmed.</p>
+      </div>
+    </div>
+
+
+    <!-- SUMMARY CARD -->
+    <div class="summary-card">
+      <div class="summary-card-label">To summarize</div>
+      <div class="summary-card-subtitle">The sky color of any planet depends on:</div>
+      <ol>
+        <li><strong>What's in the atmosphere</strong> — which gases, dust, or chemicals</li>
+        <li><strong>How dense the atmosphere is</strong> — thick or thin (Dense atmosphere → lots of particles → light scattered many times → strong effect. Thin atmosphere → few particles → light barely scattered → weak effect.)</li>
+        <li><strong>The size of the particles</strong> — small molecules → Rayleigh scattering. Large particles → Mie scattering.</li>
+<li><strong>All of this is one rule in disguise</strong> — light interacting with matter (gas, dust, liquid) decides what color we see, everywhere in the universe.</li>
+      </ol>
+    </div>
+
+
+
+    <!-- CURIOUS THOUGHT CARD -->
+    <div class="curious-card">
+      <div class="curious-card-label">A curious thought — where do the scattered waves go?</div>
+      <p>When blue light gets scattered by air molecules and doesn't reach your eyes, it doesn't disappear. It keeps traveling in whatever new direction it was scattered into — some of it reaches other people's eyes, some hits the ground, and some exits Earth's atmosphere entirely and travels into space.</p>
+      <p>In fact, any light that exits Earth — or any other planet, star, or object in the Universe — and doesn't get absorbed or scattered, just keeps traveling forever at 300,000 km/s, until it hits something. In empty space, nothing slows light down or stops it. It just keeps going.</p>
+      <p>A <strong>photon</strong> — a particle of light — is essentially immortal unless something absorbs it. It can get scattered (redirected) or absorbed (destroyed), but if neither happens, it travels forever. The Universe is mostly empty space, so a lot of photons do exactly that.</p>
+      <p>One last thing: the Universe is expanding. Light traveling across it for billions of years slowly gets stretched by that expansion — its wavelength gets longer, shifting toward red. This is called <strong>redshift</strong>. So a blue photon traveling long enough gradually becomes a red photon, then infrared, then a radio wave. Still existing — just stretched.</p>
+      <p>Some photons from the early Universe are still traveling today, <strong>13.8 billion years</strong> later.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function toggleDeeper(contentId, toggleId) {
+    const content = document.getElementById(contentId);
+    const toggle = document.getElementById(toggleId);
+    const isOpen = content.classList.contains('open');
+    content.classList.toggle('open', !isOpen);
+    toggle.classList.toggle('open', !isOpen);
+  }
+</script>
+</body>
+</html>

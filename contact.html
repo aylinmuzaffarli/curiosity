@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Contact — Curiosity</title>
+<link rel="icon" type="image/png" href="logoCu.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;1,400&family=Syne:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F8F5F0;
+  --text:#111;
+  --muted:#888;
+  --copper:#C17B3F;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background:var(--bg);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+.contact-form{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  margin-top:10px;
+}
+
+.contact-form input,
+.contact-form textarea{
+  background:transparent;
+  border:1px solid rgba(0,0,0,0.15);
+  padding:14px 14px;
+  font-family:'Lora';
+  font-size:15px;
+  border-radius:10px;
+  outline:none;
+  transition:border-color .25s, box-shadow .25s, opacity .3s, transform .3s;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus{
+  border-color:var(--copper);
+  box-shadow:0 0 0 3px rgba(193,123,63,0.08);
+}
+
+.contact-form button{
+  margin-top:10px;
+  padding:12px 16px;
+  border:none;
+  border-radius:10px;
+  background:var(--copper);
+  color:white;
+  font-family:'Inter';
+  cursor:pointer;
+  transition:.2s, box-shadow .3s, transform .3s;
+}
+
+.contact-form button:hover{
+  opacity:0.9;
+}
+
+.contact-form button:disabled{
+  cursor:wait;
+  opacity:0.75;
+  transform:none;
+}
+
+#form-status{
+  margin-top:18px;
+  min-height:22px;
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .4s ease, transform .4s ease;
+  color:var(--muted);
+  font-size:12px;
+  letter-spacing:0.4px;
+}
+
+#form-status.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+#form-status.success{
+  color:var(--copper);
+}
+
+#form-status.error{
+  color:#B85C5C;
+}
+
+.contact-inner.sent{
+  position:relative;
+}
+
+.contact-inner.sent::after{
+  content:"";
+  position:absolute;
+  inset:-18px -18px auto -18px;
+  height:160px;
+  pointer-events:none;
+  background:radial-gradient(circle at top center, rgba(193,123,63,0.12), transparent 68%);
+  filter:blur(10px);
+  opacity:0;
+  animation:glowIn .8s ease forwards;
+}
+
+@keyframes glowIn{
+  from{opacity:0; transform:translateY(8px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 80px);
+  max-width:1100px;
+  padding:14px 20px;
+  border-radius:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,0.35);
+  border:0.5px solid rgba(255,255,255,0.65);
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.07),
+    inset 0 1px 0 rgba(255,255,255,0.85);
+  backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  z-index:9999;
+  isolation:isolate;
+  will-change:transform;
+}
+
+
+.logo{
+  font-family:'Syne';
+  font-size:17px;
+  text-decoration:none;
+  color:var(--text);
+}
+.logo span{ color:var(--copper); }
+.nav-links{
+  display:flex;
+  gap:22px;
+}
+.nav-links a{
+  text-decoration:none;
+  font-size:13px;
+  color:var(--muted);
+  transition:.2s;
+}
+.nav-links a.active{
+  color:var(--copper);
+  font-weight:500;
+}
+.nav-links a:hover{ color:var(--copper); }
+
+/* ===== CONTACT PAGE ===== */
+.contact-wrap{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:120px 20px 60px;
+}
+.contact-inner{
+  max-width:520px;
+  width:100%;
+  transition:transform .35s ease, opacity .35s ease;
+}
+
+.eyebrow{
+  color:var(--copper);
+  font-size:11px;
+  letter-spacing:2.8px;
+  text-transform:uppercase;
+  margin-bottom:80px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.1s;
+}
+
+.email-label{
+  font-size:11px;
+  letter-spacing:1.8px;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:22px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.25s;
+}
+
+.email-link{
+  display:inline-block;
+  font-family:'Lora';
+  font-style:italic;
+  font-size:26px;
+  color:var(--text);
+  text-decoration:none;
+  border-bottom:1px solid rgba(17,17,17,0.25);
+  padding-bottom:4px;
+  transition:.3s;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.4s;
+}
+.email-link:hover{
+  color:var(--copper);
+  border-color:var(--copper);
+}
+
+.note{
+  margin-top:52px;
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:0.4px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.55s;
+}
+
+@keyframes fadeUp{
+  from{ opacity:0; transform:translateY(14px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .navbar{
+    width:calc(100% - 24px);
+    top:12px;
+    padding:10px 12px;
+  }
+
+  .nav-links{
+    gap:10px;
+  }
+
+  .nav-links a{
+    font-size:12px;
+  }
+
+  .logo{
+    font-size:15px;
+  }
+
+
+  .email-link{ font-size:20px; }
+  .eyebrow{ margin-bottom:60px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <a href="index.html" class="logo"><span>Cu</span>riosity</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="explore.html">Explore</a>
+<a href="library.html">Library</a>
+
+    <a href="contact.html" class="active">Contact</a>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="contact-wrap">
+  <div class="contact-inner" id="contact-inner">
+    <div class="eyebrow">Contact</div>
+    <div class="email-label">Write to me</div>
+
+    <form id="contact-form" action="https://formspree.io/f/meevgwyn" method="POST" class="contact-form">
+      <input type="text" name="name" placeholder="Your name" required>
+      <input type="email" name="email" placeholder="Your email" required>
+      <textarea name="message" placeholder="Your message" rows="6" required></textarea>
+      <button type="submit" id="submit-btn">Send message</button>
+    </form>
+
+    <div id="form-status"></div>
+    <div class="note">I read everything.</div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('contact-form');
+  const statusEl = document.getElementById('form-status');
+  const submitBtn = document.getElementById('submit-btn');
+  const contactInner = document.getElementById('contact-inner');
+
+  let hideTimer = null;
+
+  function setStatus(text, type = '') {
+    clearTimeout(hideTimer);
+
+    statusEl.textContent = text;
+    statusEl.className = '';
+    statusEl.id = 'form-status';
+
+    if (type) statusEl.classList.add(type);
+    statusEl.classList.add('show');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+    setStatus('', '');
+    contactInner.classList.remove('sent');
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        form.reset();
+        contactInner.classList.add('sent');
+        setStatus('Signal received.', 'success');
+
+        hideTimer = setTimeout(() => {
+          statusEl.classList.remove('show');
+        }, 5000);
+      } else {
+        setStatus('Something went wrong. Please try again.', 'error');
+      }
+    } catch (error) {
+      setStatus('Something went wrong. Please try again.', 'error');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send message';
+    }
+  });
+</script>
+
+</body>
+</html>

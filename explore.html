@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Explore — Curiosity</title>
+<link rel="icon" type="image/png" href="logoCu.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;1,400&family=Syne:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F8F5F0;
+  --text:#111;
+  --muted:#888;
+  --copper:#C17B3F;
+  --card-bg:#ffffff;
+  --card-border:rgba(0,0,0,0.07);
+--physics:#C17B3F;      /* warm copper (you already have it) */
+--chemistry:#D96C6C;    /* soft red */
+--biology:#4CAF7A;      /* natural green */
+--math:#6C63FF;         /* calm indigo */
+--engineering:#F4A261;  /* orange engineering */
+--psychology:#A66DD4;   /* soft purple */
+--philosophy:#6B7280;   /* gray-blue thinking */
+--earth:#3A86FF;        /* sky blue */
+--everyday:#E9C46A;     /* warm yellow */
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 80px);
+  max-width:1100px;
+  padding:14px 20px;
+  border-radius:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,0.35);
+  border:0.5px solid rgba(255,255,255,0.65);
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.07),
+    inset 0 1px 0 rgba(255,255,255,0.85);
+  backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  z-index:9999;
+  isolation:isolate;
+  will-change:transform;
+}
+
+
+/* LOGO */
+.logo{
+  font-family:'Syne';
+  font-size:17px;
+  text-decoration:none;
+  color:var(--text);
+}
+.logo span{
+  color:var(--copper);
+}
+
+/* LINKS */
+.nav-links{
+  display:flex;
+  gap:22px;
+}
+.nav-links a{
+  text-decoration:none;
+  font-size:13px;
+  color:var(--muted);
+  transition:.2s;
+}
+.nav-links a.active{
+  color:var(--copper);
+  font-weight:500;
+}
+.nav-links a:hover{
+  color:var(--copper);
+}
+
+/* ===== PAGE WRAP ===== */
+.page{
+  max-width:900px;
+  margin:0 auto;
+  padding:140px 40px 80px;
+}
+
+/* ===== HEADER ===== */
+.page-eyebrow{
+  color:var(--copper);
+  font-size:11px;
+  letter-spacing:2.8px;
+  text-transform:uppercase;
+  margin-bottom:10px;
+  opacity:0;
+  animation:fadeUp .5s ease forwards;
+  animation-delay:.05s;
+}
+.page-title{
+  font-family:'Syne';
+  font-size:42px;
+  letter-spacing:-1.5px;
+  margin-bottom:36px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.15s;
+}
+.page-title span{color:var(--copper);}
+
+/* ===== SUBMIT CARD ===== */
+.submit-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  background:rgba(255,255,255,0.45);
+  backdrop-filter:blur(16px) saturate(160%);
+  border:0.5px solid rgba(255,255,255,0.7);
+  box-shadow:0 4px 24px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.9);
+  border-radius:20px;
+  padding:26px 28px;
+  margin-bottom:36px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.22s;
+}
+.submit-card-text{
+  flex:1;
+  min-width:0;
+}
+.submit-quote{
+  font-family:'Lora';
+  font-style:italic;
+  font-size:15px;
+  color:var(--text);
+  line-height:1.55;
+  margin-bottom:8px;
+}
+.submit-line{
+  font-size:13px;
+  color:var(--muted);
+  line-height:1.5;
+}
+.submit-line .arrow{
+  color:var(--copper);
+  margin-left:4px;
+}
+.submit-btn{
+  flex-shrink:0;
+  padding:0 22px;
+  height:42px;
+  border-radius:100px;
+  background:#F5EFE7;
+  border:0.5px solid rgba(193,123,63,0.18);
+  box-shadow:0 2px 10px rgba(0,0,0,0.06);
+  cursor:pointer;
+  transition:.25s;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Inter',sans-serif;
+  font-size:11px;
+  letter-spacing:1.8px;
+  text-transform:uppercase;
+  color:var(--muted);
+  -webkit-tap-highlight-color:transparent;
+}
+.submit-btn:hover{
+  background:var(--copper);
+  border-color:var(--copper);
+  color:#fff;
+  box-shadow:0 4px 16px rgba(193,123,63,0.25);
+  transform:scale(1.03);
+}
+
+/* ===== SEARCH ===== */
+.search-wrap{
+  position:relative;
+  margin-bottom:20px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.25s;
+}
+.search-icon{
+  position:absolute;
+  left:16px;
+  top:50%;
+  transform:translateY(-50%);
+  pointer-events:none;
+  display:flex;
+  align-items:center;
+}
+.search-input{
+  width:100%;
+  padding:14px 16px 14px 44px;
+  border-radius:14px;
+  border:0.5px solid var(--card-border);
+  background:#ffffff;
+  font-family:'Inter',sans-serif;
+  font-size:14px;
+  color:var(--text);
+  outline:none;
+  transition:.2s;
+  box-shadow:0 2px 12px rgba(0,0,0,0.04);
+  -webkit-appearance:none;
+}
+.search-input::placeholder{color:var(--muted);}
+.search-input:focus{
+  border-color:rgba(193,123,63,0.4);
+  box-shadow:0 2px 20px rgba(193,123,63,0.1);
+}
+
+/* ===== FILTERS ===== */
+.filters{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:32px;
+}
+.card-pill-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:6px;
+}
+
+.pill{
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:11px;
+  letter-spacing:0.8px;
+  text-transform:uppercase;
+  border:0.5px solid rgba(0,0,0,0.08);
+  background:#fff;
+  color:var(--muted);
+  transition:.2s;
+}
+
+.pill.physics{
+  background:color-mix(in srgb, var(--physics) 15%, white);
+  border-color:color-mix(in srgb, var(--physics) 30%, transparent);
+  color:var(--physics);
+}
+.pill.chemistry{
+  background:color-mix(in srgb, var(--chemistry) 15%, white);
+  border-color:color-mix(in srgb, var(--chemistry) 30%, transparent);
+  color:var(--chemistry);
+}
+.pill.biology{
+  background:color-mix(in srgb, var(--biology) 15%, white);
+  border-color:color-mix(in srgb, var(--biology) 30%, transparent);
+  color:var(--biology);
+}
+.pill.math{
+  background:color-mix(in srgb, var(--math) 15%, white);
+  border-color:color-mix(in srgb, var(--math) 30%, transparent);
+  color:var(--math);
+}
+.pill.engineering{
+  background:color-mix(in srgb, var(--engineering) 15%, white);
+  border-color:color-mix(in srgb, var(--engineering) 30%, transparent);
+  color:var(--engineering);
+}
+.pill.psychology{
+  background:color-mix(in srgb, var(--psychology) 15%, white);
+  border-color:color-mix(in srgb, var(--psychology) 30%, transparent);
+  color:var(--psychology);
+}
+.pill.philosophy{
+  background:color-mix(in srgb, var(--philosophy) 15%, white);
+  border-color:color-mix(in srgb, var(--philosophy) 30%, transparent);
+  color:var(--philosophy);
+}
+.pill.earth{
+  background:color-mix(in srgb, var(--earth) 15%, white);
+  border-color:color-mix(in srgb, var(--earth) 30%, transparent);
+  color:var(--earth);
+}
+.pill.everyday{
+  background:color-mix(in srgb, var(--everyday) 20%, white);
+  border-color:color-mix(in srgb, var(--everyday) 30%, transparent);
+  color:var(--everyday);
+}
+
+.pill:hover{
+  transform:translateY(-1px);
+}
+.filter-group{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+.filter-btn{
+  padding:7px 18px;
+  border-radius:100px;
+  border:0.5px solid var(--card-border);
+  background:#ffffff;
+  font-family:'Inter',sans-serif;
+  font-size:12px;
+  color:var(--muted);
+  cursor:pointer;
+  transition:.2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.filter-btn:hover{
+  color:var(--copper);
+  border-color:rgba(193,123,63,0.3);
+}
+.filter-btn.active{
+  background:var(--copper);
+  color:#fff;
+  border-color:var(--copper);
+}
+
+/* thin copper separators between the 3 groups */
+.filter-divider{
+  width:34px;
+  height:1px;
+  background:var(--copper);
+  opacity:0.55;
+  margin:4px 0 4px 2px;
+  border-radius:999px;
+}
+
+/* subtle gray vertical line before Shuffle */
+.type-divider{
+  width:1px;
+  height:18px;
+  background:rgba(0,0,0,0.18);
+  margin:0 2px;
+  align-self:center;
+}
+
+/* ===== CARDS LIST ===== */
+.cards{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.45s;
+}
+
+/* ===== CARD ===== */
+.card{
+  background:var(--card-bg);
+  border:0.5px solid var(--card-border);
+  border-radius:18px;
+  padding:22px 24px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  text-decoration:none;
+  color:inherit;
+  transition:box-shadow .22s, transform .22s, border-color .22s;
+  -webkit-tap-highlight-color:transparent;
+}
+.card:hover{
+  box-shadow:0 8px 32px rgba(0,0,0,0.08);
+  transform:translateY(-2px);
+  border-color:rgba(193,123,63,0.25);
+}
+.card:active{
+  transform:translateY(0px);
+}
+.card-left{flex:1;min-width:0;}
+.card-question{
+  font-family:'Lora';
+  font-size:17px;
+  line-height:1.55;
+  color:var(--text);
+  margin-bottom:10px;
+}
+.card-type{
+  font-size:11px;
+  letter-spacing:1.6px;
+  text-transform:uppercase;
+}
+.card-type.type-question{color:var(--muted);}
+.card-type.type-article{color:var(--copper);}
+
+.card-meta{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-bottom:10px;
+}
+.card-pill{
+  display:inline-block;
+  width:fit-content;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:11px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  background:rgba(193,123,63,0.12);
+  color:var(--copper);
+  border:0.5px solid rgba(193,123,63,0.2);
+}
+.card-keywords{
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.4;
+}
+
+.card-arrow{
+  flex-shrink:0;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  border:0.5px solid var(--card-border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.22s;
+}
+.card-arrow svg{
+  display:block;
+  stroke:#888;
+  transition:stroke .22s;
+}
+mark{
+  background:rgba(193,123,63,0.15);
+  color:inherit;
+  border-radius:3px;
+  padding:0 1px;
+}
+.card:hover .card-arrow{
+  background:var(--copper);
+  border-color:var(--copper);
+}
+.card:hover .card-arrow svg{
+  stroke:#fff;
+}
+
+/* ===== EMPTY STATE ===== */
+.empty{
+  text-align:center;
+  padding:60px 0;
+  display:none;
+}
+.empty-text{
+  font-family:'Lora';
+  font-style:italic;
+  font-size:18px;
+  color:var(--muted);
+}
+
+/* ===== FOOTER ===== */
+.footer{
+  margin-top:72px;
+  padding-top:24px;
+  border-top:1px solid rgba(0,0,0,0.06);
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+  letter-spacing:0.2px;
+}
+.footer a{
+  color:inherit;
+  text-decoration:none;
+  transition:.2s;
+}
+.footer a:hover{
+  color:var(--copper);
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ===== TABLET ===== */
+@media(max-width:900px){
+  .navbar{width:calc(100% - 40px);}
+  .page{max-width:680px;padding:140px 24px 80px;}
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .navbar{
+  width:calc(100% - 24px);
+  top:12px;
+  padding:10px 12px;
+}
+
+.nav-links{
+  gap:10px;
+}
+
+.nav-links a{
+  font-size:12px;
+}
+
+.logo{
+  font-size:15px;
+}
+  
+
+.page{padding:110px 16px 60px;}
+  .page-title{font-size:30px;margin-bottom:28px;}
+  .card{padding:18px 18px;}
+  .card-question{font-size:15px;}
+  .card-arrow{width:32px;height:32px;font-size:14px;}
+  .submit-card{padding:20px 20px;gap:14px;}
+  .submit-quote{font-size:14px;}
+}
+
+/* ===== SMALL MOBILE ===== */
+@media(max-width:380px){
+  .page-title{font-size:24px;}
+  .nav-links{gap:10px;}
+  .nav-links a{font-size:12px;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <a href="index.html" class="logo"><span>Cu</span>riosity</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="explore.html" class="active">Explore</a>
+<a href="library.html">Library</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</div>
+
+<!-- PAGE -->
+<div class="page">
+  <div class="page-eyebrow">Explore</div>
+  <div class="page-title">Every <span>question</span><br>deserves an <span>answer</span></div>
+
+  <!-- SUBMIT CARD -->
+  <div class="submit-card">
+    <div class="submit-card-text">
+      <div class="submit-quote">"I'd rather be corrected than be wrong in peace." — Aylin Muzaffarli</div>
+      <div class="submit-line">If you have a question, a correction, or just something to add — submit it here.<span class="arrow">→</span></div>
+    </div>
+    <a class="submit-btn" href="https://forms.gle/vGoZi3STvNe1ZVcJ6" target="_blank" rel="noopener">open</a>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <span class="search-icon">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="6.5" cy="6.5" r="5.5" stroke="#888" stroke-width="1.2"/>
+        <path d="M10.5 10.5L13.5 13.5" stroke="#888" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <input
+      class="search-input"
+      type="text"
+      id="searchInput"
+      placeholder="Search questions and articles…"
+      autocomplete="off"
+    />
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filters">
+
+    <!-- GROUP 1: TOPIC / DOMAIN -->
+    <div class="filter-group" data-group="category">
+      <button class="filter-btn active" data-value="all">All</button>
+      <button class="filter-btn" data-value="physics">Physics</button>
+      <button class="filter-btn" data-value="chemistry">Chemistry</button>
+      <button class="filter-btn" data-value="biology">Biology</button>
+      <button class="filter-btn" data-value="earth">Earth & Space</button>
+      <button class="filter-btn" data-value="math">Mathematics</button>
+      <button class="filter-btn" data-value="engineering">Engineering</button>
+      <button class="filter-btn" data-value="psychology">Psychology & Brain</button>
+      <button class="filter-btn" data-value="philosophy">Philosophy</button>
+      <button class="filter-btn" data-value="everyday">Everyday Life</button>
+    </div>
+
+    <div class="filter-divider"></div>
+
+    <!-- GROUP 3: CONTENT TYPE -->
+    <div class="filter-group" data-group="type">
+      <button class="filter-btn active" data-value="all">All</button>
+      <button class="filter-btn" data-value="question">Questions</button>
+      <button class="filter-btn" data-value="article">Articles</button>
+      <span class="type-divider"></span>
+      <button class="filter-btn" id="shuffleBtn" type="button">Shuffle</button>
+    </div>
+
+  </div>
+
+  <!-- CARDS -->
+  <div class="cards" id="cardList">
+
+    <a class="card"
+       href="articles/sky-colors.html"
+       data-type="question"
+       data-category="physics,earth"
+       data-keywords="Rayleigh scattering · Mie scattering · light scattering · wavelength dependence · atmospheric scattering · sky color · sunset colors · sunrise colors · blue sky · red sky · Earth sky · Mars sky · Mars atmosphere · planetary atmospheres · atmospheric optics · redshift · photon path">
+
+      <div class="card-left">
+        <div class="card-meta">
+          <div class="card-pill-group">
+            <span class="pill physics">Physics</span>
+            <span class="pill earth">Earth & Space</span>
+          </div>
+          <span class="card-keywords">
+            Rayleigh scattering · Mie scattering · light scattering · wavelength dependence · atmospheric scattering · sky color · sunset colors · sunrise colors · blue sky · red sky · Mars atmosphere · planetary atmospheres · atmospheric optics · redshift · photon path
+          </span>
+        </div>
+
+        <div class="card-question">
+          Why is the sky blue? Why isn't it blue during sunsets? Why is the sky on Mars orange-ish? And why are Martian sunsets blue?
+        </div>
+
+        <div class="card-type type-question">Question</div>
+      </div>
+
+      <div class="card-arrow">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <a class="card"
+       href="articles/excitement-drugs-dopamine-coffee.html"
+       data-type="question"
+       data-category="psychology"
+       data-keywords="dopamine reward brain curiosity habit addiction receptors neurons coffee caffeine adenosine boredom neurochemistry prediction">
+
+      <div class="card-left">
+        <div class="card-meta">
+          <div class="card-pill-group">
+            <span class="pill psychology">Psychology & Brain</span>
+          </div>
+          <span class="card-keywords">dopamine · reward · brain · curiosity · habit · addiction · receptors · neurons · coffee · caffeine · adenosine · boredom · neurochemistry · prediction</span>
+        </div>
+        <div class="card-question">Why do things that once fascinated us gradually lose their magic? What happens when the reward signal is artificially pushed? What happens to dopamine after it is released? Why doesn't coffee let us sleep?</div>
+        <div class="card-type type-question">Question</div>
+      </div>
+      <div class="card-arrow">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <a class="card"
+       href="articles/blackbody.html"
+       data-type="question"
+       data-category="physics"
+       data-keywords="blackbody radiation spectrum wavelength temperature thermal emission emissivity Stefan Boltzmann law Wien law ultraviolet catastrophe Planck quantum energy photons frequency">
+
+      <div class="card-left">
+        <div class="card-meta">
+          <div class="card-pill-group">
+            <span class="pill physics">Physics</span>
+          </div>
+          <span class="card-keywords">
+            blackbody radiation · spectrum · wavelength · temperature · thermal emission · emissivity · Stefan Boltzmann law · Wien law · ultraviolet catastrophe · Planck · quantum · energy · photons · frequency
+          </span>
+        </div>
+
+        <div class="card-question">
+          Why do hot things glow? The UV catastrophe — and how Planck saved physics
+        </div>
+
+        <div class="card-type type-question">Question</div>
+      </div>
+
+      <div class="card-arrow">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 7h10M8 3l4 4-4 4" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div class="empty" id="emptyState">
+    <div class="empty-text">Nothing found. Try a different search.</div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    Built by Aylin Muzaffarli · <a href="https://aylinmuzaffarli.com" target="_blank" rel="noopener">aylinmuzaffarli.com</a> · Never accept answers — understand the mechanisms 
+  </div>
+</div>
+
+<script>
+  const searchInput = document.getElementById('searchInput');
+  const emptyState = document.getElementById('emptyState');
+  const cards = document.querySelectorAll('.card');
+  const shuffleBtn = document.getElementById('shuffleBtn');
+
+  const state = {
+    categories: new Set(),
+    type: 'all'
+  };
+
+  let searchQuery = '';
+
+  function highlight(text, query) {
+    if (!query) return text;
+    const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+  }
+
+  function setCategoryButtonsActive() {
+    const buttons = document.querySelectorAll('.filter-group[data-group="category"] .filter-btn');
+    const allActive = state.categories.size === 0;
+
+    buttons.forEach(btn => {
+      const value = btn.dataset.value;
+      if (!value) return;
+
+      if (value === 'all') {
+        btn.classList.toggle('active', allActive);
+      } else {
+        btn.classList.toggle('active', state.categories.has(value));
+      }
+    });
+  }
+
+  function setGroupActive(groupName, value) {
+    const buttons = document.querySelectorAll(`.filter-group[data-group="${groupName}"] .filter-btn`);
+    buttons.forEach(btn => {
+      const btnValue = btn.dataset.value;
+      if (!btnValue) return;
+      btn.classList.toggle('active', btnValue === value);
+    });
+  }
+
+  function toggleCategory(value) {
+    if (value === 'all') {
+      state.categories.clear();
+    } else {
+      if (state.categories.has(value)) {
+        state.categories.delete(value);
+      } else {
+        state.categories.add(value);
+      }
+    }
+
+    setCategoryButtonsActive();
+    filterCards();
+  }
+
+  function handleSingleSelect(groupName, value) {
+    if (state[groupName] === value && value !== 'all') {
+      state[groupName] = 'all';
+    } else {
+      state[groupName] = value;
+    }
+    setGroupActive(groupName, state[groupName]);
+    filterCards();
+  }
+
+  function filterCards() {
+    let visible = 0;
+
+    cards.forEach(card => {
+      const questionEl = card.querySelector('.card-question');
+      const originalText = questionEl.dataset.original || questionEl.textContent;
+      questionEl.dataset.original = originalText;
+
+      const keywords = (card.dataset.keywords || '').toLowerCase();
+      const matchesSearch =
+        originalText.toLowerCase().includes(searchQuery) ||
+        keywords.includes(searchQuery);
+
+      const cardCategories = (card.dataset.category || '')
+        .split(',')
+        .map(c => c.trim())
+        .filter(Boolean);
+
+      const matchesCategory =
+        state.categories.size === 0 ||
+        cardCategories.some(category => state.categories.has(category));
+
+      const matchesType = state.type === 'all' || card.dataset.type === state.type;
+
+      const show = matchesSearch && matchesCategory && matchesType;
+      card.style.display = show ? 'flex' : 'none';
+
+      if (show) {
+        questionEl.innerHTML = highlight(originalText, searchQuery);
+        visible++;
+      } else {
+        questionEl.innerHTML = originalText;
+      }
+    });
+
+    emptyState.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  document.querySelectorAll('.filter-group[data-group="category"] .filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!btn.dataset.value) return;
+      toggleCategory(btn.dataset.value);
+    });
+  });
+
+  document.querySelectorAll('.filter-group[data-group="type"] .filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.id === 'shuffleBtn') return;
+      if (!btn.dataset.value) return;
+      handleSingleSelect('type', btn.dataset.value);
+    });
+  });
+
+  searchInput.addEventListener('input', e => {
+    searchQuery = e.target.value.toLowerCase().trim();
+    filterCards();
+  });
+
+  shuffleBtn.addEventListener('click', () => {
+    const cardList = document.getElementById('cardList');
+    const cardsArray = Array.from(cardList.querySelectorAll('.card'));
+
+    if (cardsArray.length <= 1) return;
+
+    const originalOrder = cardsArray.map(c => c.href);
+
+    let attempts = 0;
+    do {
+      for (let i = cardsArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cardsArray[i], cardsArray[j]] = [cardsArray[j], cardsArray[i]];
+      }
+      attempts++;
+    } while (
+      cardsArray.map(c => c.href).join() === originalOrder.join() &&
+      attempts < 10
+    );
+
+    cardsArray.forEach(card => cardList.appendChild(card));
+  });
+
+  setCategoryButtonsActive();
+  filterCards();
+  document.getElementById('shuffleBtn').click();
+</script>
+</body>
+</html>

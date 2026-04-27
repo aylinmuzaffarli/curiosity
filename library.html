@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Library — Curiosity</title>
+<link rel="icon" type="image/png" href="logoCu.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;1,400&family=Syne:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F8F5F0;
+  --text:#111;
+  --muted:#888;
+  --soft:#5f5a55;
+  --copper:#C17B3F;
+  --card-bg:#ffffff;
+  --card-border:rgba(0,0,0,0.07);
+
+  --physics:#C17B3F;
+  --chemistry:#D96C6C;
+  --biology:#4CAF7A;
+  --math:#6C63FF;
+  --engineering:#F4A261;
+  --psychology:#A66DD4;
+  --philosophy:#6B7280;
+  --earth:#3A86FF;
+  --everyday:#E9C46A;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background:var(--bg);
+  font-family:'Inter',sans-serif;
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  position:relative;
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:-15%;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(193,123,63,0.10), transparent 30%),
+    radial-gradient(circle at 82% 18%, rgba(255,255,255,0.7), transparent 28%),
+    radial-gradient(circle at 72% 78%, rgba(0,0,0,0.04), transparent 34%);
+  animation:breathBg 12s ease-in-out infinite;
+  z-index:-2;
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    linear-gradient(to bottom, rgba(248,245,240,0.55), rgba(248,245,240,0.9)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255,255,255,0.06) 0,
+      rgba(255,255,255,0.06) 1px,
+      transparent 1px,
+      transparent 120px
+    );
+  z-index:-1;
+  pointer-events:none;
+}
+
+@keyframes breathBg{
+  0%,100%{transform:scale(1);opacity:.85;}
+  50%{transform:scale(1.04);opacity:1;}
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* =====  ===== */
+.navbar{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 80px);
+  max-width:1100px;
+  padding:14px 20px;
+  border-radius:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,0.35);
+  border:0.5px solid rgba(255,255,255,0.65);
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.07),
+    inset 0 1px 0 rgba(255,255,255,0.85);
+  backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  z-index:9999;
+  isolation:isolate;
+}
+
+.logo{
+  font-family:'Syne';
+  font-size:17px;
+  text-decoration:none;
+  color:var(--text);
+}
+.logo span{ color:var(--copper); }
+
+.nav-links{
+  display:flex;
+  gap:22px;
+}
+.nav-links a{
+  text-decoration:none;
+  font-size:13px;
+  color:var(--muted);
+  transition:.2s;
+}
+.nav-links a.active{ color:var(--copper); font-weight:500; }
+.nav-links a:hover{ color:var(--copper); }
+
+/* ===== PAGE ===== */
+.page{
+  max-width:1080px;
+  margin:0 auto;
+  padding:140px 32px 80px;
+}
+
+.library-hero{ margin-bottom:30px; }
+
+.eyebrow{
+  color:var(--copper);
+  font-size:11px;
+  letter-spacing:2.8px;
+  text-transform:uppercase;
+  margin-bottom:12px;
+  opacity:0;
+  animation:fadeUp .55s ease forwards;
+  animation-delay:.05s;
+}
+
+.title{
+  font-family:'Syne';
+  font-size:46px;
+  letter-spacing:-1.6px;
+  line-height:1.02;
+  margin-bottom:14px;
+  opacity:0;
+  animation:fadeUp .65s ease forwards;
+  animation-delay:.14s;
+}
+.title span{ color:var(--copper); }
+
+.subtitle{
+  max-width:760px;
+  font-family:'Lora';
+  font-size:18px;
+  line-height:1.75;
+  color:var(--soft);
+  opacity:0;
+  animation:fadeUp .65s ease forwards;
+  animation-delay:.24s;
+}
+
+/* ===== MODE SWITCHER ===== */
+.section-switcher{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+  margin-bottom:22px;
+  opacity:0;
+  animation:fadeUp .65s ease forwards;
+  animation-delay:.32s;
+}
+
+.section-card{
+  position:relative;
+  padding:24px 22px;
+  border-radius:22px;
+  border:0.5px solid var(--card-border);
+  background:rgba(255,255,255,0.74);
+  cursor:pointer;
+  transition:transform .25s, border-color .25s, box-shadow .25s, background .25s;
+  overflow:hidden;
+  appearance:none;
+  -webkit-appearance:none;
+  width:100%;
+  text-align:left;
+  font:inherit;
+  color:inherit;
+}
+
+.section-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  width:100%;
+  height:2px;
+  background:linear-gradient(90deg, var(--copper), transparent 75%);
+  opacity:0;
+  transition:.25s;
+}
+
+.section-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(193,123,63,0.24);
+  box-shadow:0 10px 30px rgba(0,0,0,0.06);
+}
+
+.section-card.active{
+  background:linear-gradient(180deg, rgba(255,255,255,0.88), rgba(247,239,230,0.92));
+  border-color:rgba(193,123,63,0.4);
+  box-shadow:0 18px 45px rgba(193,123,63,0.14);
+}
+
+.section-card.active::before{ opacity:1; }
+
+.section-label{
+  font-size:11px;
+  letter-spacing:1.7px;
+  text-transform:uppercase;
+  color:var(--copper);
+  margin-bottom:8px;
+}
+
+.section-title{
+  font-family:'Syne';
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.section-text{
+  font-family:'Lora';
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.7;
+}
+
+/* ===== THEORY METHOD CARD ===== */
+.method-card{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  background:rgba(255,255,255,0.45);
+  backdrop-filter:blur(16px) saturate(160%);
+  -webkit-backdrop-filter:blur(16px) saturate(160%);
+  border:0.5px solid rgba(255,255,255,0.7);
+  box-shadow:0 4px 24px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.9);
+  border-radius:20px;
+  padding:26px 28px;
+  margin-bottom:20px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.22s;
+}
+.method-card-text{
+  flex:1;
+  min-width:0;
+}
+.method-quote{
+  font-family:'Lora';
+  font-style:italic;
+  font-size:15px;
+  color:var(--text);
+  line-height:1.55;
+  margin-bottom:8px;
+}
+.method-line{
+  font-family:'Lora';
+  font-style:italic;
+  font-size:15px;
+  color:var(--text);
+  line-height:1.55;
+  margin-bottom:8px;
+}
+.method-line strong{
+  font-weight:700;
+}
+
+/* ===== SEARCH ===== */
+.search-wrap{
+  position:relative;
+  margin-bottom:20px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.4s;
+}
+.search-icon{
+  position:absolute;
+  left:16px;
+  top:50%;
+  transform:translateY(-50%);
+  pointer-events:none;
+  display:flex;
+  align-items:center;
+}
+.search-input{
+  width:100%;
+  padding:14px 16px 14px 44px;
+  border-radius:14px;
+  border:0.5px solid var(--card-border);
+  background:#ffffff;
+  font-family:'Inter',sans-serif;
+  font-size:14px;
+  color:var(--text);
+  outline:none;
+  transition:.2s;
+  box-shadow:0 2px 12px rgba(0,0,0,0.04);
+  -webkit-appearance:none;
+}
+.search-input::placeholder{color:var(--muted);}
+.search-input:focus{
+  border-color:rgba(193,123,63,0.4);
+  box-shadow:0 2px 20px rgba(193,123,63,0.1);
+}
+
+.entry-meta-top{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  margin-bottom:10px;
+}
+
+/* category (Engineering, Physics, etc) */
+.entry-category{
+  font-size:11px;
+  letter-spacing:1.4px;
+  text-transform:uppercase;
+  font-weight:500;
+}
+
+/* reuse your colors */
+.entry-category.physics{ color:var(--physics); }
+.entry-category.chemistry{ color:var(--chemistry); }
+.entry-category.biology{ color:var(--biology); }
+.entry-category.math{ color:var(--math); }
+.entry-category.engineering{ color:var(--engineering); }
+.entry-category.psychology{ color:var(--psychology); }
+.entry-category.philosophy{ color:var(--philosophy); }
+.entry-category.earth{ color:var(--earth); }
+.entry-category.everyday{ color:var(--everyday); }
+
+/* keywords line */
+.entry-keywords{
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.5;
+}
+
+/* ===== FILTERS ===== */
+.filters{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:26px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.45s;
+}
+
+.filter-group{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+}
+
+.filter-btn{
+  padding:7px 18px;
+  border-radius:100px;
+  border:0.5px solid var(--card-border);
+  background:#ffffff;
+  font-family:'Inter',sans-serif;
+  font-size:12px;
+  color:var(--muted);
+  cursor:pointer;
+  transition:.2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.filter-btn:hover{
+  color:var(--copper);
+  border-color:rgba(193,123,63,0.3);
+}
+.filter-btn.active{
+  background:var(--copper);
+  color:#fff;
+  border-color:var(--copper);
+}
+
+.filter-divider{
+  width:34px;
+  height:1px;
+  background:var(--copper);
+  opacity:0.55;
+  margin:4px 0 4px 2px;
+  border-radius:999px;
+}
+
+.type-divider{
+  width:1px;
+  height:18px;
+  background:rgba(0,0,0,0.18);
+  margin:0 2px;
+  align-self:center;
+}
+
+/* ===== ARCHIVE PANEL ===== */
+.archive-shell{
+  opacity:0;
+  animation:fadeUp .65s ease forwards;
+  animation-delay:.5s;
+}
+
+.archive-panel{
+  padding:24px;
+  border-radius:26px;
+  background:rgba(255,255,255,0.62);
+  border:0.5px solid rgba(255,255,255,0.72);
+  box-shadow:0 12px 36px rgba(0,0,0,0.05), inset 0 1px 0 rgba(255,255,255,0.92);
+  backdrop-filter:blur(16px) saturate(150%);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);
+}
+
+.archive-top{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+  margin-bottom:20px;
+  padding-bottom:16px;
+  border-bottom:1px solid rgba(0,0,0,0.06);
+}
+
+.archive-title{
+  font-family:'Syne';
+  font-size:24px;
+  letter-spacing:-0.5px;
+}
+
+.archive-description{
+  max-width:560px;
+  font-family:'Lora';
+  font-size:14px;
+  color:var(--muted);
+  line-height:1.6;
+}
+
+.archive-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:18px;
+}
+
+.entry{
+  display:flex;
+  flex-direction:column;
+  background:var(--card-bg);
+  border:0.5px solid var(--card-border);
+  border-radius:22px;
+  overflow:hidden;
+  text-decoration:none;
+  color:inherit;
+  transition:transform .22s, box-shadow .22s, border-color .22s;
+  -webkit-tap-highlight-color:transparent;
+}
+
+.entry:hover{
+  transform:translateY(-3px);
+  box-shadow:0 10px 32px rgba(0,0,0,0.08);
+  border-color:rgba(193,123,63,0.24);
+}
+
+.entry-cover{
+  aspect-ratio:4 / 3;
+  background:#fff;
+  border-bottom:1px solid rgba(0,0,0,0.05);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+}
+
+
+.entry-body{
+  padding:18px 18px 16px;
+}
+
+.entry-meta{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  margin-bottom:12px;
+  width:100%;
+}
+
+.card-pill-group{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:0;
+  margin-bottom:10px;
+}
+
+
+.tag{
+  display:inline-block;
+  width:fit-content;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:11px;
+  letter-spacing:0.8px;
+  text-transform:uppercase;
+  border:0.5px solid rgba(0,0,0,0.08);
+  background:#fff;
+  color:var(--muted);
+  transition:.2s;
+}
+
+
+.tag.physics{background:color-mix(in srgb, var(--physics) 15%, white);border-color:color-mix(in srgb, var(--physics) 30%, transparent);color:var(--physics);}
+.tag.chemistry{background:color-mix(in srgb, var(--chemistry) 15%, white);border-color:color-mix(in srgb, var(--chemistry) 30%, transparent);color:var(--chemistry);}
+.tag.biology{background:color-mix(in srgb, var(--biology) 15%, white);border-color:color-mix(in srgb, var(--biology) 30%, transparent);color:var(--biology);}
+.tag.math{background:color-mix(in srgb, var(--math) 15%, white);border-color:color-mix(in srgb, var(--math) 30%, transparent);color:var(--math);}
+.tag.engineering{background:color-mix(in srgb, var(--engineering) 15%, white);border-color:color-mix(in srgb, var(--engineering) 30%, transparent);color:var(--engineering);}
+.tag.psychology{background:color-mix(in srgb, var(--psychology) 15%, white);border-color:color-mix(in srgb, var(--psychology) 30%, transparent);color:var(--psychology);}
+.tag.philosophy{background:color-mix(in srgb, var(--philosophy) 15%, white);border-color:color-mix(in srgb, var(--philosophy) 30%, transparent);color:var(--philosophy);}
+.tag.earth{background:color-mix(in srgb, var(--earth) 15%, white);border-color:color-mix(in srgb, var(--earth) 30%, transparent);color:var(--earth);}
+.tag.everyday{background:color-mix(in srgb, var(--everyday) 18%, white);border-color:color-mix(in srgb, var(--everyday) 30%, transparent);color:var(--everyday);}
+
+.entry-arrow{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:0.5px solid rgba(0,0,0,0.10);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+  transition:.22s;
+}
+
+.entry-arrow svg{
+  stroke:#888;
+  transition:.22s;
+}
+
+.entry:hover .entry-arrow{
+  background:var(--copper);
+  border-color:var(--copper);
+}
+
+.entry:hover .entry-arrow svg{
+  stroke:#fff;
+}
+
+.entry-title{
+  font-family:'Syne';
+  font-size:24px;
+  line-height:1.08;
+  margin-bottom:10px;
+  letter-spacing:-0.6px;
+}
+
+.entry-description{
+  font-family:'Lora';
+  font-size:15px;
+  line-height:1.65;
+  color:var(--soft);
+}
+
+mark{
+  background:rgba(193,123,63,0.15);
+  color:inherit;
+  border-radius:3px;
+  padding:0 1px;
+}
+
+
+.card-pill-group{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:0;
+  margin-bottom:10px;
+}
+
+.entry-keywords{
+  font-size:11px;
+  color:var(--muted);
+  line-height:1.5;
+  margin-top:4px;
+}
+
+.dot{
+  margin:0 6px;
+  color:rgba(0,0,0,0.25);
+  font-size:12px;
+}
+
+.dot-tag{
+  margin:0;
+}
+
+.empty{
+  text-align:center;
+  padding:28px 0 10px;
+  display:none;
+}
+.empty-text{
+  font-family:'Lora';
+  font-style:italic;
+  font-size:18px;
+  color:var(--muted);
+}
+
+.footer-note{
+  margin-top:18px;
+  text-align:center;
+  font-size:12px;
+  color:var(--muted);
+  letter-spacing:0.2px;
+  line-height:1.7;
+}
+
+.footer{
+  margin-top:72px;
+  padding-top:24px;
+  border-top:1px solid rgba(0,0,0,0.06);
+  text-align:center;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.7;
+  letter-spacing:0.2px;
+}
+.footer a{
+  color:inherit;
+  text-decoration:none;
+  transition:.2s;
+}
+.footer a:hover{color:var(--copper);}
+
+/* ===== TABLET ===== */
+@media(max-width:900px){
+  .page{padding:140px 24px 80px;}
+  .title{font-size:40px;}
+  .archive-grid{grid-template-columns:1fr;}
+}
+
+/* ===== MOBILE ===== */
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .navbar{
+    width:calc(100% - 24px);
+    top:12px;
+    padding:10px 12px;
+  }
+
+  .nav-links{gap:10px;}
+  .nav-links a{font-size:12px;}
+  .logo{font-size:15px;}
+}
+  
+  .subtitle{
+    font-size:16px;
+    line-height:1.7;
+  }
+
+  /* PAGE LAYOUT */
+  .page{
+    padding:110px 16px 60px;
+  }
+
+  /* SWITCHER */
+  .section-switcher{
+    grid-template-columns:1fr;
+  }
+
+  .section-card{
+    padding:20px 18px;
+  }
+
+  .section-title{
+    font-size:24px;
+  }
+
+  /* SEARCH */
+  .search-input{
+    font-size:14px;
+  }
+
+  /* ARCHIVE */
+  .archive-panel{
+    padding:18px;
+    border-radius:22px;
+  }
+
+  .archive-top{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:8px;
+    margin-bottom:16px;
+    padding-bottom:14px;
+  }
+
+  .archive-title{
+    font-size:22px;
+  }
+
+  .entry-title{
+    font-size:21px;
+  }
+
+  .entry-description{
+    font-size:14px;
+  }
+}
+
+/* ===== SMALL MOBILE ===== */
+@media(max-width:380px){
+  .nav-links{gap:8px;}
+  .nav-links a{font-size:11px;}
+  .title{font-size:28px;}
+  .subtitle{font-size:15px;}
+}
+</style>
+</head>
+<body>
+
+<div class="navbar">
+  <a href="index.html" class="logo"><span>Cu</span>riosity</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="explore.html">Explore</a>
+    <a href="library.html" class="active">Library</a>
+    <a href="contact.html">Contact</a>
+  </div>
+</div>
+
+<div class="page">
+  <section class="library-hero">
+    <div class="eyebrow">Library</div>
+    <h1 class="title">A curated archive of <span>ideas</span> and <span>builds</span></h1>
+    <p class="subtitle">
+     Theory is understanding ideas. Experiments are systems built and tested through circuits, Arduino, code, and simulations.
+    </p>
+  </section>
+
+  <div class="section-switcher">
+    <button class="section-card active" id="theoryBtn" type="button" aria-pressed="true">
+      <div class="section-title">Theory</div>
+      <div class="section-text">Conceptual entries in physics, mathematics, the mind, and the structure of systems.</div>
+    </button>
+
+    <button class="section-card" id="expBtn" type="button" aria-pressed="false">
+      <div class="section-title">Experiments</div>
+      <div class="section-text">Hands-on systems: circuits, Arduino, code, and simulations.</div>
+    </button>
+  </div>
+
+  <div class="method-card" id="methodCard">
+    <div class="method-card-text">
+      <div class="method-quote">
+        My method is different. When I encounter a question, I don’t immediately look for external answers. I first try to construct it internally — by imagining and simulating the system in my mind, and reasoning through a possible explanation, even if it is wrong.
+      </div>
+      <div class="method-line">
+        I stay with the problem long enough to build my own hypothesis. If I get stuck, I don’t switch to instant answers — I stay with the confusion and try different mental approaches.
+      </div>
+      <div class="method-line">
+        Only after this internal attempt I look at external sources — books, lectures — and compare my reasoning with established knowledge.
+      </div>
+      <div class="method-line">
+        <strong>I prefer a wrong idea I built myself over a correct one I received too early.</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="6.5" cy="6.5" r="5.5" stroke="#888" stroke-width="1.2"/>
+        <path d="M10.5 10.5L13.5 13.5" stroke="#888" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </span>
+    <input
+      class="search-input"
+      type="text"
+      id="searchInput"
+      placeholder="Search concepts, builds, and ideas…"
+      autocomplete="off"
+    />
+  </div>
+
+  <div class="filters">
+    <div class="filter-group" data-group="category">
+      <button class="filter-btn active" data-value="all">All</button>
+      <button class="filter-btn" data-value="physics">Physics</button>
+      <button class="filter-btn" data-value="chemistry">Chemistry</button>
+      <button class="filter-btn" data-value="biology">Biology</button>
+      <button class="filter-btn" data-value="earth">Earth & Space</button>
+      <button class="filter-btn" data-value="math">Mathematics</button>
+      <button class="filter-btn" data-value="engineering">Engineering</button>
+      <button class="filter-btn" data-value="psychology">Psychology & Brain</button>
+      <button class="filter-btn" data-value="philosophy">Philosophy</button>
+      <button class="filter-btn" data-value="everyday">Everyday Life</button>
+    </div>
+
+    <div class="filter-divider"></div>
+
+    <div class="filter-group">
+      <button class="filter-btn" id="shuffleBtn" type="button">Shuffle</button>
+    </div>
+  </div>
+
+  <div class="archive-shell">
+    <div class="archive-panel" id="content"></div>
+    <div class="empty" id="emptyState">
+      <div class="empty-text">Nothing found. Try a different search.</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Built by Aylin Muzaffarli · <a href="https://aylinmuzaffarli.com" target="_blank" rel="noopener">aylinmuzaffarli.com</a> · Never accept answers — understand the mechanisms
+  </div>
+</div>
+
+<script>
+const theoryBtn = document.getElementById('theoryBtn');
+const expBtn = document.getElementById('expBtn');
+const content = document.getElementById('content');
+const searchInput = document.getElementById('searchInput');
+const emptyState = document.getElementById('emptyState');
+const shuffleBtn = document.getElementById('shuffleBtn');
+const categoryButtons = document.querySelectorAll('.filter-group[data-group="category"] .filter-btn');
+const methodCard = document.getElementById('methodCard');
+
+const libraryData = {
+ theory: [
+  {
+    title: 'Displacement',
+    description: '',
+    tag: 'Physics',
+    tagClass: 'physics',
+    category: 'physics',
+    href: 'library_content/theory/displacement.html',
+    cover: 'library_content/imgs/theory_images/Displacement.jpg',
+    tags: ['kinematics', 'motion', 'position']
+  }
+],
+
+  experiments: [
+    { 
+  title: 'Blinking LED', 
+  description: 'LED blinking using Arduino digital output', 
+  tag: 'Engineering', 
+  tagClass: 'engineering', 
+  category: 'engineering', 
+  href: 'library_content/experiments/blinking-led.html',
+  cover: 'library_content/imgs/experiments_images/blinking-led.jpg',
+  tags: ['arduino', 'led', 'blink']
+},
+    { 
+  title: 'SOS LED', 
+  description: 'Make an LED blink the SOS Morse code signal using Arduino digital output and timing control', 
+  tag: 'Engineering', 
+  tagClass: 'engineering', 
+  category: 'engineering', 
+  href: 'library_content/experiments/sos-led.html',
+  cover: 'library_content/imgs/experiments_images/sos-led.jpg',
+  tags: ['arduino', 'led', 'morse', 'signal', 'timing control']
+},
+    {
+  title: 'Police Light Simulation',
+  description: 'Use two LEDs to create an alternating blinking pattern that demonstrates timing control and sequential digital output using Arduino.',
+  tag: 'Engineering',
+  tagClass: 'engineering',
+  category: 'engineering',
+  href: 'library_content/experiments/police-led.html',
+  cover: 'library_content/imgs/experiments_images/police-led.png',
+  tags: ['arduino', 'led', 'timing control', 'sequential output', 'simulation']
+},
+   {
+  title: '4-bit Counter LED',
+  description: 'Create a system where 4 LEDs represent binary numbers from 0 to 15, turning on and off in a structured counting pattern.',
+  tag: 'Engineering',
+  tagClass: 'engineering',
+  category: 'engineering',
+  href: 'library_content/experiments/4-bit-counter-led.html',
+  cover: 'library_content/imgs/experiments_images/4-bit-counter-led.jpg',
+  tags: ['arduino', 'led', 'timing control', 'sequential output', 'binary counting']
+}
+]
+};
+
+const LIBRARY_MODE_KEY = 'curiosityLibraryMode';
+
+const savedMode = localStorage.getItem(LIBRARY_MODE_KEY);
+
+const state = {
+  mode: savedMode === 'experiments' ? 'experiments' : 'theory',
+  categories: new Set(),
+  search: '',
+  theoryOrder: [0, 1, 2, 3],
+  experimentsOrder: [0, 1, 2, 3]
+};
+
+function highlight(text, query){
+  if (!query) return text;
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return text.replace(new RegExp(`(${escaped})`, 'gi'), '<mark>$1</mark>');
+}
+
+function getOrderedEntries(){
+  const data = state.mode === 'theory' ? libraryData.theory : libraryData.experiments;
+  const order = state.mode === 'theory' ? state.theoryOrder : state.experimentsOrder;
+  return order.map(i => data[i]).filter(Boolean);
+}
+
+function matchesCategories(entry){
+  if (state.categories.size === 0) return true;
+  return entry.category && state.categories.has(entry.category);
+}
+
+function matchesSearch(entry){
+  const query = state.search.toLowerCase().trim();
+  if (!query) return true;
+
+  const tagsText = entry.tags ? entry.tags.join(' ') : '';
+
+  const haystack = `
+    ${entry.title}
+    ${entry.description}
+    ${entry.tag}
+    ${entry.category}
+    ${tagsText}
+  `.toLowerCase();
+
+  return haystack.includes(query);
+}
+
+function renderSection(){
+  const isTheory = state.mode === 'theory';
+  const title = isTheory ? 'Theory Archive' : 'Experiment Archive';
+  const description = isTheory
+    ? 'A structured collection of ideas'
+    : 'Systems built and tested through circuits, code, and simulation';
+
+  methodCard.style.display = isTheory ? 'flex' : 'none';
+
+  const entries = getOrderedEntries().filter(entry => matchesCategories(entry) && matchesSearch(entry));
+
+  if (!entries.length) {
+    content.innerHTML = `
+      <div class="archive-top">
+        <div class="archive-title">${title}</div>
+        <div class="archive-description">${description}</div>
+      </div>
+    `;
+    emptyState.style.display = 'block';
+    return
+  }
+
+  const cards = entries.map(entry => `
+  <a class="entry" href="${entry.href}">
+    
+    <div class="entry-cover" style="
+      background-image: url('${entry.cover || ''}');
+      background-size: cover;
+      background-position: center;
+    "></div>
+
+    <div class="entry-body">
+
+      <div class="entry-meta">
+        <div class="entry-arrow">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="entry-title">
+        ${highlight(entry.title, state.search)}
+      </div>
+
+      <!-- TAGS UNDER TITLE -->
+     <div class="entry-meta-top">
+  <div class="card-pill-group">
+    <span class="tag ${entry.tagClass}">
+      ${entry.tag}
+    </span>
+  </div>
+
+ ${entry.tags ? `
+  <div class="entry-keywords">
+    ${entry.tags.map(tag => highlight(tag, state.search)).join(' · ')}
+  </div>
+` : ''}
+</div>
+
+      ${state.mode === 'theory' ? '' : `
+  <div class="entry-description">
+    ${highlight(entry.description, state.search)}
+  </div>
+`}
+
+    </div>
+  </a>
+`).join('');
+  content.innerHTML = `
+    <div class="archive-top">
+      <div class="archive-title">${title}</div>
+      <div class="archive-description">${description}</div>
+    </div>
+    <div class="archive-grid">${cards}</div>
+  `;
+  emptyState.style.display = 'none';
+}
+
+function setMode(mode){
+  state.mode = mode;
+  localStorage.setItem(LIBRARY_MODE_KEY, mode);
+
+  theoryBtn.classList.toggle('active', mode === 'theory');
+  expBtn.classList.toggle('active', mode === 'experiments');
+  theoryBtn.setAttribute('aria-pressed', mode === 'theory' ? 'true' : 'false');
+  expBtn.setAttribute('aria-pressed', mode === 'experiments' ? 'true' : 'false');
+  renderSection();
+}
+
+function setCategoryButtonActive(){
+  const allActive = state.categories.size === 0;
+  categoryButtons.forEach(btn => {
+    const value = btn.dataset.value;
+    if (!value) return;
+    btn.classList.toggle('active', allActive ? value === 'all' : state.categories.has(value));
+  });
+}
+
+function toggleCategory(value){
+  if (value === 'all') {
+    state.categories.clear();
+  } else if (state.categories.has(value)) {
+    state.categories.delete(value);
+  } else {
+    state.categories.add(value);
+  }
+
+  setCategoryButtonActive();
+  renderSection();
+}
+
+function shuffleCurrentMode(){
+  const key = state.mode === 'theory' ? 'theoryOrder' : 'experimentsOrder';
+  const current = state[key].slice();
+
+  if (current.length <= 1) return;
+
+  let shuffled = current.slice();
+  let attempts = 0;
+  const original = current.join(',');
+
+  do {
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    attempts++;
+  } while (shuffled.join(',') === original && attempts < 10);
+
+  state[key] = shuffled;
+  renderSection();
+}
+
+searchInput.addEventListener('input', e => {
+  state.search = e.target.value;
+  renderSection();
+});
+
+categoryButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const value = btn.dataset.value;
+    if (!value) return;
+    toggleCategory(value);
+  });
+});
+
+shuffleBtn.addEventListener('click', shuffleCurrentMode);
+
+theoryBtn.addEventListener('click', () => setMode('theory'));
+expBtn.addEventListener('click', () => setMode('experiments'));
+
+setCategoryButtonActive();
+setMode(state.mode);
+</script>
+
+</body>
+</html>

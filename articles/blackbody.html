@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Why do hot things glow? The UV catastrophe — and how Planck saved physics — Curiosity</title>
+<link rel="icon" type="image/png" href="../logoCu.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;1,400&family=Syne:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F8F5F0;
+  --text:#111;
+  --muted:#888;
+  --copper:#C17B3F;
+  --card-bg:#ffffff;
+  --card-border:rgba(0,0,0,0.07);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 80px);
+  max-width:1100px;
+  padding:14px 20px;
+  border-radius:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,0.35);
+  backdrop-filter:blur(20px) saturate(180%);
+  border:0.5px solid rgba(255,255,255,0.65);
+  box-shadow:0 8px 40px rgba(0,0,0,0.07),inset 0 1px 0 rgba(255,255,255,0.85);
+  z-index:100;
+}
+.logo{
+  font-family:'Syne';
+  font-size:17px;
+  text-decoration:none;
+  color:var(--text);
+}
+.logo span{color:var(--copper);}
+.nav-links{display:flex;gap:22px;align-items:center;}
+.nav-links a{
+  text-decoration:none;
+  font-size:13px;
+  color:var(--muted);
+  transition:.2s;
+}
+.nav-links a:hover{color:var(--copper);}
+.nav-links a.active{color:var(--copper);font-weight:500;}
+.back-link{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:13px;
+  color:var(--muted);
+  text-decoration:none;
+  transition:.2s;
+  border-left:0.5px solid rgba(0,0,0,0.1);
+  padding-left:22px;
+  margin-left:4px;
+}
+.back-link:hover{color:var(--copper);}
+.back-link svg{stroke:currentColor;transition:.2s;}
+
+/* ===== ARTICLE WRAP ===== */
+.article-wrap{
+  max-width:860px;
+  margin:0 auto;
+  padding:140px 60px 100px;
+}
+
+/* ===== HEADER ===== */
+.article-eyebrow{
+  color:var(--copper);
+  font-size:11px;
+  letter-spacing:2.8px;
+  text-transform:uppercase;
+  margin-bottom:16px;
+  opacity:0;
+  animation:fadeUp .5s ease forwards .05s;
+}
+.article-title{
+  font-family:'Lora';
+  font-size:26px;
+  line-height:1.6;
+  letter-spacing:0;
+  color:var(--text);
+  margin-bottom:48px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards .15s;
+}
+.article-divider{
+  width:36px;
+  height:1px;
+  background:var(--copper);
+  margin-bottom:48px;
+  opacity:0;
+  animation:fadeUp .5s ease forwards .3s;
+}
+
+/* ===== BODY ===== */
+.article-body{
+  opacity:0;
+  animation:fadeUp .6s ease forwards .4s;
+}
+
+/* Section headers */
+.section-title{
+  font-family:'Lora';
+  font-size:22px;
+  letter-spacing:0;
+  margin:52px 0 18px;
+  color:var(--text);
+}
+.section-title:first-child{margin-top:0;}
+
+/* Paragraphs */
+.article-body p{
+  font-family:'Lora';
+  font-size:17px;
+  line-height:1.85;
+  color:#222;
+  margin-bottom:22px;
+}
+
+/* Formula block */
+.formula{
+  font-family:'Georgia', serif;
+  font-size:20px;
+  text-align:center;
+  margin:28px 0;
+  color:var(--text);
+  letter-spacing:0.5px;
+}
+.formula-note{
+  font-family:'Lora';
+  font-style:italic;
+  font-size:14px;
+  color:var(--muted);
+  text-align:center;
+  margin-top:-16px;
+  margin-bottom:24px;
+}
+
+/* ===== EMISSIVITY TABLE ===== */
+.emissivity-list{
+  margin:24px 0 28px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.emissivity-row{
+  font-family:'Lora';
+  font-size:16px;
+  line-height:1.7;
+  color:#222;
+  padding-left:18px;
+  position:relative;
+}
+.emissivity-row::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:11px;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--copper);
+  opacity:0.5;
+}
+
+/* ===== ARROW LIST ===== */
+.arrow-list{
+  margin:20px 0 28px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.arrow-list li{
+  font-family:'Lora';
+  font-size:16px;
+  line-height:1.7;
+  color:#222;
+  list-style:none;
+  padding-left:22px;
+  position:relative;
+}
+.arrow-list li::before{
+  content:'→';
+  position:absolute;
+  left:0;
+  color:var(--copper);
+  opacity:0.7;
+}
+
+/* ===== DEEPER DROPDOWN ===== */
+.deeper{
+  margin:8px 0 28px;
+  border-radius:14px;
+  border:0.5px solid var(--card-border);
+  overflow:hidden;
+  background:var(--card-bg);
+}
+.deeper-toggle{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px;
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-family:'Inter',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  color:var(--copper);
+  text-align:left;
+  gap:12px;
+  transition:background .2s;
+  -webkit-tap-highlight-color:transparent;
+}
+.deeper-toggle:hover{background:rgba(193,123,63,0.05);}
+.deeper-chevron{
+  flex-shrink:0;
+  transition:transform .3s ease;
+  stroke:var(--copper);
+}
+.deeper-toggle.open .deeper-chevron{transform:rotate(180deg);}
+.deeper-content{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .4s ease, padding .3s ease;
+  padding:0 20px;
+}
+.deeper-content.open{
+  max-height:600px;
+  padding:4px 20px 20px;
+}
+.deeper-content p{
+  font-family:'Lora';
+  font-size:15px;
+  line-height:1.8;
+  color:#444;
+  margin-bottom:14px;
+}
+.deeper-content p:last-child{margin-bottom:0;}
+.deeper-content .formula{font-size:17px;margin:18px 0;}
+
+/* ===== IMAGES ===== */
+.article-img-wrap{
+  margin:32px 0 10px;
+  border-radius:14px;
+  overflow:hidden;
+  border:0.5px solid var(--card-border);
+}
+.article-img-wrap img{
+  width:100%;
+  display:block;
+}
+.img-caption{
+  font-family:'Inter';
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:28px;
+  padding-left:2px;
+}
+
+/* ===== SUMMARY CARD ===== */
+.summary-card{
+  background:var(--card-bg);
+  border:0.5px solid var(--card-border);
+  border-radius:18px;
+  padding:28px 32px;
+  margin:52px 0 28px;
+}
+.summary-card-label{
+  font-size:11px;
+  letter-spacing:2.2px;
+  text-transform:uppercase;
+  color:var(--copper);
+  margin-bottom:18px;
+}
+.summary-card ul{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.summary-card ul li{
+  font-family:'Lora';
+  font-size:15px;
+  line-height:1.7;
+  color:#222;
+  padding-left:18px;
+  position:relative;
+}
+.summary-card ul li::before{
+  content:'';
+  position:absolute;
+  left:0;
+  top:11px;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:var(--copper);
+  opacity:0.6;
+}
+
+/* ===== CURIOUS THOUGHT CARD ===== */
+.curious-card{
+  background:linear-gradient(135deg,rgba(193,123,63,0.06) 0%,rgba(193,123,63,0.02) 100%);
+  border:0.5px solid rgba(193,123,63,0.2);
+  border-radius:18px;
+  padding:28px 32px;
+  margin-bottom:60px;
+}
+.curious-card-label{
+  font-size:11px;
+  letter-spacing:2.2px;
+  text-transform:uppercase;
+  color:var(--copper);
+  margin-bottom:18px;
+}
+.curious-card p{
+  font-family:'Lora';
+  font-size:16px;
+  line-height:1.85;
+  color:#222;
+  margin-bottom:16px;
+}
+.curious-card p:last-child{margin-bottom:0;}
+
+/* ===== VIDEOS SECTION ===== */
+.videos-section{
+  margin-top:52px;
+  padding-top:32px;
+  border-top:0.5px solid var(--card-border);
+}
+.videos-label{
+  font-size:11px;
+  letter-spacing:2.2px;
+  text-transform:uppercase;
+  color:var(--copper);
+  margin-bottom:16px;
+}
+.videos-section p{
+  font-family:'Lora';
+  font-size:15px;
+  line-height:1.8;
+  color:#444;
+  margin-bottom:14px;
+}
+.video-links{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-top:16px;
+}
+.video-links a{
+  font-family:'Inter';
+  font-size:13px;
+  color:var(--copper);
+  text-decoration:none;
+  border-bottom:0.5px solid rgba(193,123,63,0.3);
+  padding-bottom:2px;
+  width:fit-content;
+  transition:.2s;
+}
+.video-links a:hover{opacity:0.7;}
+.video-note{
+  font-family:'Inter';
+  font-size:12px;
+  color:var(--muted);
+  font-style:italic;
+  margin-left:8px;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ===== TABLET ===== */
+@media(max-width:900px){
+  .navbar{width:calc(100% - 40px);}
+  .article-wrap{max-width:100%;padding:130px 32px 80px;}
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .navbar{width:calc(100% - 30px);top:12px;padding:12px 14px;}
+  .nav-links{gap:12px;}
+  .back-link{padding-left:12px;}
+  .article-wrap{padding:110px 18px 60px;}
+  .article-title{font-size:19px;}
+  .section-title{font-size:19px;}
+  .article-body p{font-size:16px;}
+  .summary-card{padding:22px 20px;}
+  .curious-card{padding:22px 20px;}
+}
+@media(max-width:380px){
+  .article-title{font-size:17px;}
+  .nav-links a:not(.back-link){display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <a href="../index.html" class="logo"><span>Cu</span>riosity</a>
+  <div class="nav-links">
+    <a href="../index.html">Home</a>
+    <a href="../explore.html">Explore</a>
+    <a href="../contact.html">Contact</a>
+    <a href="../explore.html" class="back-link">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+        <path d="M11 7H3M6 3L2 7l4 4"/>
+      </svg>
+      Explore
+    </a>
+  </div>
+</div>
+
+<!-- ARTICLE -->
+<div class="article-wrap">
+
+  <div class="article-eyebrow">Question</div>
+  <div class="article-title">Why do hot things glow? The UV catastrophe — and how Planck saved physics</div>
+  <div class="article-divider"></div>
+
+  <div class="article-body">
+
+    <!-- SECTION 1 -->
+    <div class="section-title">What is a blackbody?</div>
+
+    <p>The answer to why hot things glow lies in something called <strong>blackbody radiation</strong>.</p>
+
+    <p>A blackbody is a body that absorbs all incoming electromagnetic radiation. Because it has temperature, it also emits electromagnetic radiation determined only by its temperature. It doesn't reflect or transmit anything. When it emits that energy back, we call it radiation.</p>
+
+    <p>Not all real objects behave this perfectly, so we have a spectrum defined by <strong>emissivity</strong> — a number that expresses how close a real object's behaviour is to a perfect blackbody:</p>
+
+    <div class="emissivity-list">
+      <div class="emissivity-row">e = 0 → white body (fully reflects, absorbs nothing)</div>
+      <div class="emissivity-row">0 &lt; e &lt; 1 → grey body (partially absorbs)</div>
+      <div class="emissivity-row">e = 1 → black body (absorbs everything)</div>
+    </div>
+
+    <!-- DEEPER DROPDOWN -->
+    <div class="deeper">
+      <button class="deeper-toggle" id="deeperToggle1" onclick="toggleDeeper('deeperContent1','deeperToggle1')">
+        Want to go deeper? — What exactly is radiation?
+        <svg class="deeper-chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 6l4 4 4-4"/>
+        </svg>
+      </button>
+      <div class="deeper-content" id="deeperContent1">
+        <p>Radiation is energy leaving the body. Everything that has temperature radiates — because atoms jiggle, and jiggling charges create a changing electromagnetic field. And a changing EM field carries energy outward as waves.</p>
+        <p>This is different from the other two ways heat can travel. <em>Conduction</em> requires direct contact — atoms bumping into each other. <em>Convection</em> requires a fluid or gas to carry the heat. Radiation needs nothing — it travels through complete vacuum at the speed of light.</p>
+        <p>That's how the Sun's heat reaches us across 150 million kilometres of empty space.</p>
+      </div>
+    </div>
+
+    <p>The power emitted by a blackbody is described by the <strong>Stefan-Boltzmann law</strong>:</p>
+
+    <div class="formula">P = σ · A · T⁴</div>
+    <div class="formula-note">σ is a constant, A is surface area, T is temperature. For real objects: P = e · σ · A · T⁴</div>
+
+    <p>Notice the T⁴ — temperature has an enormous effect. Double the temperature, and the emitted power increases by <strong>16 times</strong>.</p>
+
+    <!-- SECTION 2 -->
+    <div class="section-title">So, look at this graph</div>
+
+    <p>The y-axis tells us how much radiation is emitted. The x-axis shows at which wavelengths. Each curve represents one object at one constant temperature.</p>
+
+    <div class="article-img-wrap">
+      <img src="../images/graph.png" alt="Blackbody radiation spectrum showing curves at 3000K, 4000K, and 5000K" />
+    </div>
+    <div class="img-caption">Image source: Wikipedia</div>
+
+    <p>We see hot things glow when enough of their radiation falls inside the visible range. Cool objects radiate too — but in infrared, which our eyes can't detect. Push the temperature high enough, and the peak shifts into visible light — first red, then orange, then white.</p>
+
+    <p>That's the core answer. But there's a deeper question hiding underneath it: <em>why does the curve have that shape at all?</em> Classical physics tried to answer this — and failed spectacularly.</p>
+
+    <!-- SECTION 3 -->
+    <div class="section-title">The UV catastrophe — and how Planck saved physics</div>
+
+    <p>Classical physics assumed each <strong>degree of freedom</strong> gets an equal share of energy. Here's what that means:</p>
+
+    <p>A degree of freedom is just a different way energy can be stored. Think of it as a slot where energy can sit. In our box, each possible wave pattern is one such slot — and we call it a mode.</p>
+
+    <p>Since higher-frequency waves are shorter, more standing-wave patterns can fit inside the 3D cavity. This means the number of possible modes increases rapidly with frequency.</p>
+
+    <p>Scientists studied this by taking a box with a small hole, illuminating it, and trapping light inside. The hole barely lets anything escape — so it behaves like a blackbody. Inside, light bounces around in every possible mode simultaneously.</p>
+
+    <div class="article-img-wrap">
+      <img src="../images/boxes.png" alt="A box with a small hole acting as a blackbody cavity" />
+    </div>
+    <div class="img-caption">Image source: LibreTexts Chemistry</div>
+
+    <p>Classical physics said: each mode gets equal energy. But since there are infinitely many high-frequency modes — and each gets some energy — the total energy becomes infinite. Any hot object should instantly blast out enormous amounts of UV radiation.</p>
+
+    <div class="article-img-wrap">
+      <img src="../images/DOF.png" alt="1, 2, and 3 degrees of freedom showing increasing wave mode combinations" />
+    </div>
+    <div class="img-caption">As frequency increases, the wavelength becomes shorter. Shorter waves allow more standing-wave patterns to fit inside the box, creating more possible modes. Each mode claims equal energy. That's what breaks classical physics. — Image source: FloatHeadPhysics</div>
+
+   
+
+    <p>Obviously, that doesn't happen. This failure was called the <strong>ultraviolet catastrophe</strong>.</p>
+
+    <p>Planck fixed it in 1900 with one radical assumption: <em>what if energy doesn't flow freely, but comes in discrete packets?</em></p>
+
+    <p>He proposed:</p>
+
+    <div class="formula">E = hf</div>
+    <div class="formula-note">The energy of each packet grows with frequency. h is Planck's constant.</div>
+
+<p>So high-frequency modes don't just need <em>some</em> energy — they need a <em>large</em> packet to create that wave pattern at all. (Here, "activate" means supplying enough energy to actually create the pattern — without it, the pattern simply never forms.) And the heated body has a limited amount of energy to distribute. High-frequency modes require larger energy packets, so at ordinary temperatures most of them are rarely excited. That is why the curve eventually falls instead of growing forever.</p>
+
+<ul class="arrow-list">
+  <li>Low frequency → cheap packets → most wave patterns form → curve rises</li>
+  <li>High frequency → expensive packets → most wave patterns never form → curve falls</li>
+  <li>In between → the peak</li>
+</ul>
+
+
+
+
+    <p>Planck thought this was just a mathematical trick. It wasn't. Energy genuinely comes in packets. That assumption accidentally gave birth to <strong>quantum mechanics</strong>.</p>
+
+    <!-- SECTION 4 -->
+    <div class="section-title">Back to the original question</div>
+
+    <p>As temperature increases, the peak of the emission curve shifts toward shorter wavelengths — into the visible range. That's why hot things glow. The wavelength of that peak is given by <strong>Wien's displacement law</strong>:</p>
+
+    <div class="formula">λmax = 0.002898 / T</div>
+    <div class="formula-note">where T is the temperature of the object in Kelvin</div>
+
+   
+<!-- CURIOUS THOUGHT CARD -->
+<div class="curious-card">
+  <div class="curious-card-label">Curious thoughts</div>
+
+  <p><strong>1.</strong> Did you know you can tell whether a star is hot or cool just by looking at its color?</p>
+  <p>Hotter star → smaller λmax → peak shifts toward blue/violet → star looks bluish<br>
+  Cooler star → larger λmax → peak shifts toward red → star looks reddish</p>
+  <p>No telescope needed. Just look up.</p>
+
+  <hr style="border:none;border-top:0.5px solid rgba(193,123,63,0.2);margin:24px 0;">
+
+  <p><strong>2.</strong> You've probably seen infrared camera footage where humans glow in red and orange. But wait — earlier we said red means cooler in stars. So why does red mean hot in cameras?</p>
+  <p>Because they have nothing to do with each other. Humans are ~36°C — nowhere near hot enough to emit visible light. Infrared cameras detect the infrared radiation we emit, then <em>assign</em> colors to represent intensity. Red means more radiation, blue and green less. These colors are invented by the camera — a visual map, not reality.</p>
+  <p>Star colors are completely real. A red star genuinely emits more red light. A blue star genuinely emits more blue light. That's blackbody radiation — temperature physically shifts the peak wavelength into those colors.</p>
+  <p>One more thing: infrared and thermal cameras aren't the same. An infrared camera measures infrared radiation directly. A thermal camera goes further — it converts that measurement to a temperature value using a physics formula, then visualizes it with colors. First measures IR, then interprets it.</p>
+</div>
+
+
+
+
+    <!-- VIDEOS SECTION -->
+    <div class="videos-section">
+      <div class="videos-label">A note</div>
+      <p>These are the videos that helped me understand this. If something felt unclear, they might help you too:</p>
+      <div class="video-links">
+        <div><a href="https://youtu.be/EWqzg0iqNtw?si=q_3VSV83DfeCpKZh" target="_blank">Video 1 — youtu.be/EWqzg0iqNtw</a></div>
+        <div><a href="https://youtu.be/ugsvADj1wts?si=WgPF3T4nT537jkiB" target="_blank">Video 2 — youtu.be/ugsvADj1wts</a></div>
+        <div><a href="https://youtu.be/ALEDjjAVZSY?si=0Y5FSWdoGnwS9-De" target="_blank">Video 3 — youtu.be/ALEDjjAVZSY</a><span class="video-note">(has a short sponsor ad, skip if needed)</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function toggleDeeper(contentId, toggleId) {
+    const content = document.getElementById(contentId);
+    const toggle = document.getElementById(toggleId);
+    const isOpen = content.classList.contains('open');
+    content.classList.toggle('open', !isOpen);
+    toggle.classList.toggle('open', !isOpen);
+  }
+</script>
+</body>
+</html>
