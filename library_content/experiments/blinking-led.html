@@ -358,45 +358,30 @@
 
     /* ===== MOBILE ===== */
     @media(max-width:768px){
-      .navbar{
-        width:calc(100% - 30px);
-        top:12px;
-        padding:12px 14px;
-      }
+  .navbar{
+    width:calc(100% - 20px);
+    top:12px;
+    padding:10px 14px;
+  }
 
-      .nav-links{
-        gap:12px;
-      }
+  .nav-links{
+    display:flex;
+    justify-content:flex-end;
+    width:100%;
+  }
 
-      .back-link{
-        padding-left:12px;
-      }
+  /* hide everything except back button */
+  .nav-links a:not(.back-link){
+    display:none;
+  }
 
-      .article-wrap{
-        padding:110px 18px 60px;
-      }
-
-      .article-title{
-        font-size:19px;
-      }
-
-      .section-title{
-        font-size:19px;
-      }
-
-      .article-body p{
-        font-size:16px;
-      }
-
-      .info-list{
-        font-size:15px;
-      }
-
-      .code-editor{
-        font-size:13px;
-        padding:16px 14px 18px;
-      }
-    }
+  .back-link{
+    border-left:none;
+    padding-left:0;
+    margin-left:0;
+    font-size:13px;
+  }
+}
 
     /* ===== SMALL MOBILE ===== */
     @media(max-width:380px){
