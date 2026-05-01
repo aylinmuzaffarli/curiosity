@@ -371,6 +371,7 @@ body::after{
     width:calc(100% - 20px);
     top:12px;
     padding:10px 14px;
+<<<<<<< HEAD
   }
 
   .nav-links{
@@ -391,7 +392,28 @@ body::after{
     font-size:13px;
   }
 }
+=======
+  }
+>>>>>>> e63bfa3 (Updated corrosion article and site styling)
 
+  .nav-links{
+    display:flex;
+    justify-content:flex-end;
+    width:100%;
+  }
+
+  /* hide everything except back button */
+  .nav-links a:not(.back-link){
+    display:none;
+  }
+
+  .back-link{
+    border-left:none;
+    padding-left:0;
+    margin-left:0;
+    font-size:13px;
+  }
+}
 /* ===== SMALL MOBILE ===== */
 @media(max-width:380px){
   .article-title{font-size:17px;}
