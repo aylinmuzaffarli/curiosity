@@ -75,11 +75,29 @@ body{
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 @media(max-width:900px){.navbar{width:calc(100% - 40px);}.article-wrap{max-width:100%;padding:130px 32px 80px;}}
 @media(max-width:768px){
-  .navbar{width:calc(100% - 30px);top:12px;padding:12px 14px;}
-  .nav-links{gap:12px;}.back-link{padding-left:12px;}
-  .article-wrap{padding:110px 18px 60px;}
-  .article-title{font-size:19px;}.section-title{font-size:19px;}
-  .article-body p{font-size:16px;}
+  .navbar{
+    width:calc(100% - 20px);
+    top:12px;
+    padding:10px 14px;
+  }
+
+  .nav-links{
+    display:flex;
+    justify-content:flex-end;
+    width:100%;
+  }
+
+  /* hide everything except back button */
+  .nav-links a:not(.back-link){
+    display:none;
+  }
+
+  .back-link{
+    border-left:none;
+    padding-left:0;
+    margin-left:0;
+    font-size:13px;
+  }
 }
 @media(max-width:380px){.article-title{font-size:17px;}.nav-links a:not(.back-link){display:none;}}
 </style>
@@ -147,11 +165,11 @@ body{
 
     <p>Because rust is a porous, non-protective hydrated iron oxide, oxygen and water can reach the iron underneath, allowing corrosion to continue.</p>
 
-    <p>Is it visible? Right, left sides example</p>
+    <div class="section-title">Is it visible? Right, left sides example</div>
 
     <p>If the right side is wet, and the left side is not, then rust will start on the right side and can gradually damage the metal. If conditions allow, it can eventually become visible on the left side too. But rust only forms where conditions allow. And they can, because rust is porous.</p>
 
-    <p>Imagine a thin layer of iron, only one side is wet, and the other is not. Will the other side be rusted too? Will it be visible?</p>
+    <div class="section-title">Imagine a thin layer of iron, only one side is wet, and the other is not. Will the other side be rusted too? Will it be visible?</div>
 
     <p>Yes, it can be visible. Again, rust just forms where oxygen and water can reach.</p>
 
