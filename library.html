@@ -664,7 +664,7 @@ mark{
   .nav-links{gap:10px;}
   .nav-links a{font-size:12px;}
   .logo{font-size:15px;}
-}
+
   
   .subtitle{
     font-size:16px;
@@ -946,10 +946,14 @@ const state = {
   mode: savedMode === 'experiments' ? 'experiments' : 'theory',
   categories: new Set(),
   search: '',
+
   theoryOrder: libraryData.theory.map((_, i) => i),
   experimentsOrder: libraryData.experiments.map((_, i) => i)
 };
 
+
+
+  
 
 function highlight(text, query){
   if (!query) return text;
