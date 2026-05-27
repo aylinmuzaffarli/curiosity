@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curiosity</title>
+<link rel="icon" type="image/png" href="logoCu.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Lora:ital,wght@0,400;1,400&family=Syne:wght@800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F8F5F0;
+  --text:#111;
+  --muted:#888;
+  --copper:#C17B3F;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:var(--bg);
+  font-family:'Inter',sans-serif;
+}
+/* ===== NAVBAR ===== */
+.navbar{
+  position:fixed;
+  top:20px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 80px);
+  max-width:1100px;
+  padding:14px 20px;
+  border-radius:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(255,255,255,0.35);
+  border:0.5px solid rgba(255,255,255,0.65);
+  box-shadow:
+    0 8px 40px rgba(0,0,0,0.07),
+    inset 0 1px 0 rgba(255,255,255,0.85);
+  backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  z-index:9999;
+  isolation:isolate;
+  will-change:transform;
+}
+
+
+.cta-group{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:8px; /* space between the two */
+  margin-top:10px;
+}
+
+/* LOGO */
+.logo{
+  font-family:'Syne';
+  font-size:17px;
+  text-decoration:none;
+  color:var(--text);
+}
+.logo span{
+  color:var(--copper);
+}
+/* LINKS */
+.nav-links{
+  display:flex;
+  gap:22px;
+}
+.nav-links a{
+  text-decoration:none;
+  font-size:13px;
+  color:var(--muted);
+  transition:.2s;
+}
+.nav-links a.active{
+  color:var(--copper);
+  font-weight:500;
+}
+.nav-links a:hover{
+  color:var(--copper);
+}
+/* ===== HERO ===== */
+.hero{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:0 20px;
+}
+
+
+
+
+
+.eyebrow{
+  color:var(--copper);
+  font-size:12px;
+  letter-spacing:2.4px;
+  text-transform:uppercase;
+  margin-bottom:16px;
+  opacity:0;
+  animation:fadeUp .5s ease forwards;
+  animation-delay:.1s;
+}
+
+
+.cta{
+  display:inline-block;
+  text-decoration:none;
+  font-family:'Lora';
+  font-style:italic;
+
+
+  font-size:16px;
+  line-height:1.6;
+  letter-spacing:0.2px;
+  transition:.25s;
+
+  border-bottom:1px solid transparent; /* default */
+  padding-bottom:2px; /* makes underline look nicer */
+}
+
+/* MAIN */
+.cta.primary{
+  color:var(--text);
+  border-bottom-color:var(--text);
+  animation-delay:.7s;
+}
+
+.cta.secondary{
+  color:var(--muted);
+  border-bottom-color:var(--muted);
+  animation-delay:.85s;
+}
+
+
+/* hover shared */
+.cta:hover{
+  color:var(--copper);
+  border-bottom-color:var(--copper);
+}
+  
+.intro{
+  max-width:580px;
+  margin:0 auto 32px;
+  font-family:'Lora', serif;
+  font-size:15px;
+  line-height:1.75;
+  color:var(--muted);
+  letter-spacing:0.2px;
+  text-align:center;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.5s;
+}
+
+.title{
+  font-family:'Syne';
+  font-size:78px;
+  letter-spacing:-2.5px;
+  margin-bottom:14px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.25s;
+}
+.title span{color:var(--copper);}
+.tagline{
+  font-family:'Lora';
+  font-style:italic;
+  color:var(--muted);
+  font-size:20px;
+  margin-bottom:34px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards;
+  animation-delay:.4s;
+}
+
+
+/* ===== ANIMATION ===== */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .navbar{
+    width:calc(100% - 24px);
+    top:12px;
+    padding:10px 12px;
+  }
+
+  .nav-links{
+    gap:10px;
+  }
+
+  .nav-links a{
+    font-size:12px;
+  }
+
+  .logo{
+    font-size:15px;
+  }
+
+  .title{font-size:42px;}
+  .tagline{font-size:17px;}
+}
+
+
+
+</style>
+</head>
+<body>
+<!-- NAVBAR -->
+<div class="navbar">
+  <a href="#" class="logo"><span>Cu</span>riosity</a>
+  <div class="nav-links">
+    <a href="#" class="active">Home</a>
+<a href="explore.html">Explore</a>
+<a href="library.html">Library</a>
+<a href="contact.html">Contact</a>
+  </div>
+</div>
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="eyebrow">A science notebook</div>
+    <div class="title">
+      <span>Cu</span>riosity
+    </div>
+    <div class="tagline">My curiosity doesn't let me sleep peacefully.</div>
+<div class="intro">
+  A personal archive by Aylin Muzaffarli, born 2011.<br>
+  Questions I couldn't stop thinking about, answered until I actually understood them.<br>
+  A place where 3AM curiosity gets a proper investigation.
+</div>
+
+
+<div class="cta-group">
+  <a href="explore.html" class="cta primary">Start exploring →</a>
+  <a href="why.html" class="cta secondary">Why this exists →</a>
+</div>
+
+  </div>
+</div>
+</body>
+</html>
